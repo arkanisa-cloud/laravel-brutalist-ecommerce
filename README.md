@@ -1,58 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# STS — The E-Commerce Vault System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel Version](https://img.shields.io/badge/Laravel-13.x-red.svg)](https://laravel.com)
+[![Alpine.js Version](https://img.shields.io/badge/Alpine.js-3.x-blue.svg)](https://alpinejs.dev)
+[![TailwindCSS Version](https://img.shields.io/badge/TailwindCSS-3.x-38bdf8.svg)](https://tailwindcss.com)
 
-## About Laravel
+STS adalah aplikasi web e-commerce berperforma tinggi yang berfokus pada pengalaman pengguna yang bersih serta alur data backend yang kokoh. Antarmuka pengguna (UI) mengadopsi gaya premium **Brutalist-Minimalism / Modern Vault Design**, yang memproses alur kerja utama dengan sangat cepat, tegas, dan elegan.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Fitur Unggulan Arsitektur & Rekayasa Kode
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. Strategi Caching Tingkat Lanjut (Enterprise Caching)
+Untuk menghindari kendala koneksi timeout, menghindari batas limit API (`429 Too Many Requests`), serta menghilangkan ketergantungan penuh pada API pihak ketiga, aplikasi ini menerapkan **strict memory caching selama 30 hari** (`Cache::remember`) pada semua operasi data wilayah geografis. Pemanggilan dropdown alamat secara berulang setelah data tersimpan akan memangkas waktu respon secara drastis hingga **0ms**.
 
-## Learning Laravel
+### 2. Trik Pemetaan Geografis Cerdas (Cakupan Alamat 4 Tingkat)
+API logistik pihak ketiga membutuhkan **ID Kecamatan (District ID)** yang presisi untuk memproses kalkulasi ongkos kirim. Agar sistem tetap mendukung cakupan alamat lengkap 4 tingkat (Provinsi -> Kota -> Kecamatan -> Kelurahan) tanpa merusak atau membongkar skema database yang sudah ada:
+- Kolom database `subdistrict_id` digunakan khusus untuk menyimpan **ID Kecamatan** secara langsung.
+- Kolom teks `subdistrict` menyimpan string gabungan dengan format murni: `"Nama Kecamatan, Nama Kelurahan"` (Contoh: `"Jogonalan, Ngering"`).
+- Alur kerja frontend secara otomatis memecah (*parsing*) struktur string ini secara dinamis pada saat mode edit alamat untuk mengisi kembali pilihan dropdown secara otomatis (*pre-populate*).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 3. Keamanan Transaksi Database (Database Transaction Safety)
+Proses finalisasi checkout dibungkus secara ketat di dalam isolasi transaksi database relasional (`DB::beginTransaction()`, `DB::commit()`, `DB::rollback()`). Hal ini menjamin integritas data secara penuh: jika pengurangan stok produk atau alokasi pembuatan order gagal di tengah jalan, seluruh status database akan dibatalkan otomatis (*rolled back*), mencegah terjadinya *error* stok hantu (stok berkurang tetapi order gagal).
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 4. Kontrol Metrik Berat Produk yang Ketat
+Berat produk di dalam database dilacak menggunakan satuan **Gram murni berbasis Integer** (Contoh: `500` untuk 500 gram), bukan desimal kilogram (`0.5kg`). Pendekatan ini menghilangkan risiko pemotongan nilai (*truncation error*) menjadi `0` akibat kegagalan *loose casting* pada database, sehingga akurasi perhitungan kalkulasi ongkir ke API logistik tetap terjaga 100%.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 🛠️ Tech Stack & Dependensi
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- **Backend Framework:** Laravel 13 (PHP 8.2+)
+- **Frontend Interactivity:** Alpine.js (Two-Way Data Binding)
+- **Styling Architecture:** Tailwind CSS (Custom Vault Theme)
+- **Database Engine:** MySQL / MariaDB
+- **Logistics Engine:** Komerce / RajaOngkir API Mirror
 
-```bash
-composer require laravel/boost --dev
+---
 
-php artisan boost:install
-```
+## 📦 Alur Kerja & Fitur Utama
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+- [x] **Antarmuka Brutalist Vault:** Layout UI yang sangat responsif dan modern dengan memanfaatkan kontras tipografi yang tegas serta border minimalis yang bersih.
+- [x] **Dropdown Alamat Bertingkat Otomatis:** Diurutkan berdasarkan alfabet (A-Z) secara *case-insensitive* dari sisi server menggunakan fungsi `usort` sebelum dikirim ke frontend.
+- [x] **Kalkulator Ongkir Interaktif:** JavaScript Alpine.js melakukan *fetch background* data secara sinkron begitu kurir pengiriman dipilih oleh user.
+- [x] **Navigasi Checkout Premium:** Validasi form secara *real-time* dengan integrasi manajemen alamat instan yang dilengkapi parameter memori pengalihan otomatis (`?redirect=checkout`).
+- [x] **Unggah Bukti Pembayaran yang Aman:** Pembatasan file yang ketat (Maksimal 2MB, format MIME gambar valid) dengan pembaruan status transaksi otomatis lewat gerbang verifikasi admin (`pending status`).
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
