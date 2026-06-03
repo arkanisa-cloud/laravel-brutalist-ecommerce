@@ -4,26 +4,31 @@
 [![Alpine.js Version](https://img.shields.io/badge/Alpine.js-3.x-blue.svg)](https://alpinejs.dev)
 [![TailwindCSS Version](https://img.shields.io/badge/TailwindCSS-3.x-38bdf8.svg)](https://tailwindcss.com)
 
-STS adalah aplikasi web e-commerce berperforma tinggi yang berfokus pada pengalaman pengguna yang bersih serta alur data backend yang kokoh. Antarmuka pengguna (UI) mengadopsi gaya premium **Brutalist-Minimalism / Modern Vault Design**, yang memproses alur kerja utama dengan sangat cepat, tegas, dan elegan.
+STS adalah aplikasi web e-commerce modern berorientasi performa tinggi yang dibangun menggunakan Laravel 13, Tailwind CSS, dan Alpine.js. Antarmuka pengguna (UI) mengadopsi gaya premium **Brutalist-Minimalism / Modern Vault Design**, yang menyajikan pengalaman berbelanja yang cepat, tegas, unik, dan elegan.
 
 ---
 
-## 🚀 Fitur Unggulan Arsitektur & Rekayasa Kode
+## 🚀 Fitur Unggulan Toko Online (Core E-Commerce Features)
 
-### 1. Strategi Caching Tingkat Lanjut (Enterprise Caching)
-Untuk menghindari kendala koneksi timeout, menghindari batas limit API (`429 Too Many Requests`), serta menghilangkan ketergantungan penuh pada API pihak ketiga, aplikasi ini menerapkan **strict memory caching selama 30 hari** (`Cache::remember`) pada semua operasi data wilayah geografis. Pemanggilan dropdown alamat secara berulang setelah data tersimpan akan memangkas waktu respon secara drastis hingga **0ms**.
+Aplikasi ini dilengkapi dengan fitur-fitur utama toko online standar industri yang siap pakai untuk mendukung pengalaman berbelanja pengguna secara interaktif:
 
-### 2. Trik Pemetaan Geografis Cerdas (Cakupan Alamat 4 Tingkat)
-API logistik pihak ketiga membutuhkan **ID Kecamatan (District ID)** yang presisi untuk memproses kalkulasi ongkos kirim. Agar sistem tetap mendukung cakupan alamat lengkap 4 tingkat (Provinsi -> Kota -> Kecamatan -> Kelurahan) tanpa merusak atau membongkar skema database yang sudah ada:
-- Kolom database `subdistrict_id` digunakan khusus untuk menyimpan **ID Kecamatan** secara langsung.
-- Kolom teks `subdistrict` menyimpan string gabungan dengan format murni: `"Nama Kecamatan, Nama Kelurahan"` (Contoh: `"Jogonalan, Ngering"`).
-- Alur kerja frontend secara otomatis memecah (*parsing*) struktur string ini secara dinamis pada saat mode edit alamat untuk mengisi kembali pilihan dropdown secara otomatis (*pre-populate*).
+### 1. Kalkulator Ongkos Kirim Otomatis (Real-time Shipping Cost)
+Sistem dapat menghitung biaya ongkos kirim secara otomatis dan *real-time* langsung di halaman checkout. Fitur ini terintegrasi dengan API logistik (Komerce/RajaOngkir mirror) yang mendukung berbagai kurir populer seperti JNE, J&T, POS Indonesia, TIKI, dan Lion Parcel. Ongkir akan langsung berubah secara dinamis begitu pengguna memilih kurir dan layanan yang tersedia.
 
-### 3. Keamanan Transaksi Database (Database Transaction Safety)
-Proses finalisasi checkout dibungkus secara ketat di dalam isolasi transaksi database relasional (`DB::beginTransaction()`, `DB::commit()`, `DB::rollback()`). Hal ini menjamin integritas data secara penuh: jika pengurangan stok produk atau alokasi pembuatan order gagal di tengah jalan, seluruh status database akan dibatalkan otomatis (*rolled back*), mencegah terjadinya *error* stok hantu (stok berkurang tetapi order gagal).
+### 2. Dropdown Alamat Bertingkat Dinamis (4-Level Cascading Address)
+Saat menambahkan atau mengubah alamat pengiriman, pengguna disajikan dengan dropdown wilayah yang saling terhubung secara otomatis (Provinsi -> Kota/Kabupaten -> Kecamatan -> Kelurahan). Data wilayah ini dimuat secara efisien dari server dan diurutkan secara alfabetis (A-Z) untuk mempermudah pencarian alamat.
 
-### 4. Kontrol Metrik Berat Produk yang Ketat
-Berat produk di dalam database dilacak menggunakan satuan **Gram murni berbasis Integer** (Contoh: `500` untuk 500 gram), bukan desimal kilogram (`0.5kg`). Pendekatan ini menghilangkan risiko pemotongan nilai (*truncation error*) menjadi `0` akibat kegagalan *loose casting* pada database, sehingga akurasi perhitungan kalkulasi ongkir ke API logistik tetap terjaga 100%.
+### 3. Manajemen Keranjang Belanja Akurat (Interactive Cart System)
+Fitur keranjang belanja yang memungkinkan pengguna menambah, mengubah jumlah kuantitas (`qty`), atau menghapus item produk sebelum checkout. Sistem secara otomatis mengakumulasikan total harga barang serta total berat produk dalam satuan gram murni untuk memastikan perhitungan ongkir di tahap berikutnya tetap akurat.
+
+### 4. Fleksibilitas Metode Pembayaran (Transfer Bank & COD)
+Mendukung dua metode pembayaran utama yang paling sering digunakan di Indonesia, yaitu **Transfer Bank Manual** dan **Cash on Delivery (COD)**. Pilihan metode pembayaran terikat secara instan dengan sistem formulir checkout menggunakan Alpine.js untuk memastikan proses data aman.
+
+### 5. Sistem Unggah Bukti Transfer & Verifikasi Status Order
+Bagi pengguna yang memilih metode Transfer Bank, sistem menyediakan fitur khusus untuk mengunggah gambar bukti transfer (maksimal 2MB, format JPEG/PNG) langsung di halaman detail pesanan. Setelah bukti diunggah, status pembayaran otomatis berubah menjadi `pending` untuk menunggu proses verifikasi dan validasi oleh admin toko.
+
+### 6. Alur Checkout Pintar & Proteksi Alamat
+Sistem checkout dirancang responsif dan aman. Jika pengguna belum memiliki alamat pengiriman yang terdaftar, sistem akan memblokir tombol order dan memunculkan peringatan untuk menambahkan alamat terlebih dahulu. Dilengkapi juga dengan parameter memori pengalihan otomatis (`?redirect=checkout`) agar pengguna langsung diarahkan kembali ke halaman checkout setelah selesai membuat alamat baru.
 
 ---
 
@@ -34,15 +39,5 @@ Berat produk di dalam database dilacak menggunakan satuan **Gram murni berbasis 
 - **Styling Architecture:** Tailwind CSS (Custom Vault Theme)
 - **Database Engine:** MySQL / MariaDB
 - **Logistics Engine:** Komerce / RajaOngkir API Mirror
-
----
-
-## 📦 Alur Kerja & Fitur Utama
-
-- [x] **Antarmuka Brutalist Vault:** Layout UI yang sangat responsif dan modern dengan memanfaatkan kontras tipografi yang tegas serta border minimalis yang bersih.
-- [x] **Dropdown Alamat Bertingkat Otomatis:** Diurutkan berdasarkan alfabet (A-Z) secara *case-insensitive* dari sisi server menggunakan fungsi `usort` sebelum dikirim ke frontend.
-- [x] **Kalkulator Ongkir Interaktif:** JavaScript Alpine.js melakukan *fetch background* data secara sinkron begitu kurir pengiriman dipilih oleh user.
-- [x] **Navigasi Checkout Premium:** Validasi form secara *real-time* dengan integrasi manajemen alamat instan yang dilengkapi parameter memori pengalihan otomatis (`?redirect=checkout`).
-- [x] **Unggah Bukti Pembayaran yang Aman:** Pembatasan file yang ketat (Maksimal 2MB, format MIME gambar valid) dengan pembaruan status transaksi otomatis lewat gerbang verifikasi admin (`pending status`).
 
 ---
