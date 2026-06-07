@@ -69,20 +69,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     * Tampilkan detail produk
-     */
-    public function show(Product $product)
-    {
-        // Load relasi
-        $product->load(['category', 'stockHistories' => function ($query) {
-            $query->latest()->limit(10);
-        }]);
-
-        return view('admin.products.show', compact('product'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      * Tampilkan form edit produk
      */

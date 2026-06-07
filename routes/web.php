@@ -16,6 +16,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,10 @@ Route::get('/superiority', function () {
 Route::get('/contact', function () {
     return redirect()->route('home');
 })->name('contact');
+
+// Google OAuth Routes
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 
 // ========================================

@@ -41,4 +41,10 @@ return [
         'origin_district_id' => env('RAJAONGKIR_ORIGIN_DISTRICT_ID', 261),
     ],
 
+    'google' => [
+    'client_id' => env('GOOGLE_CLIENT_ID'),
+    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+    'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
+
 ];
