@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\StockInController;
 use App\Http\Controllers\Admin\StockOutController;
 use App\Http\Controllers\Customer\CartController;
@@ -41,7 +42,7 @@ Route::get('/', function () {
         ->withCount('orderItems')
         ->orderByDesc('order_items_count')
         ->latest()
-        ->take(4)
+        ->take(8)
         ->get();
         
     $categories = Category::where('status', 'active')->get();
@@ -166,6 +167,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
     Route::get('/reports/export-stock', [ReportController::class, 'exportStock'])->name('reports.exportStock');
     Route::get('/reports/export-sales', [ReportController::class, 'exportSales'])->name('reports.exportSales');
+
+    // Site Settings (Edit Website)
+    Route::get('/site-settings', [SiteSettingController::class, 'index'])->name('site-settings.index');
+    Route::put('/site-settings', [SiteSettingController::class, 'update'])->name('site-settings.update');
 
     // Profile
     Route::get('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');

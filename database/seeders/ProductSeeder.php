@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $products = [
-        
+            // Baju (Category 1)
             [
                 'category_id' => 1,
                 'name' => 'Long Sleeve T-Shirt STS',
@@ -25,9 +25,8 @@ class ProductSeeder extends Seeder
                 'weight' => 500,
                 'stock' => 10,
                 'description' => 'T-Shirt lengan panjang berkualitas tinggi',
-                'image' => 'products\baju\baju1.png',
+                'image' => 'products/baju/depanbaju1.webp',
             ],
-        
             [
                 'category_id' => 1,
                 'name' => 'Crew Neck T-Shirt',
@@ -35,9 +34,8 @@ class ProductSeeder extends Seeder
                 'weight' => 500,
                 'stock' => 10,
                 'description' => 'T-Shirt crew neck berkualitas tinggi',
-                'image' => 'products\baju\baju2.png',
+                'image' => 'products/baju/depanbaju2.webp',
             ],
-
             [
                 'category_id' => 1,
                 'name' => 'T-Shirt Lengan Pendek',
@@ -45,9 +43,8 @@ class ProductSeeder extends Seeder
                 'weight' => 500,
                 'stock' => 10,
                 'description' => 'T-Shirt lengan pendek berkualitas tinggi',
-                'image' => 'products\baju\baju3.png',
+                'image' => 'products/baju/depanbaju3.webp',
             ],
-
             [
                 'category_id' => 1,
                 'name' => 'T-Shirt Kece',
@@ -55,9 +52,8 @@ class ProductSeeder extends Seeder
                 'weight' => 500,
                 'stock' => 10,
                 'description' => 'T-Shirt lengan pendek berkualitas tinggi',
-                'image' => 'products\baju\baju4.png',
+                'image' => 'products/baju/depanbaju4.webp',
             ],
-
             [
                 'category_id' => 1,
                 'name' => 'Baju Kemeja Lengan Pendek',
@@ -65,129 +61,66 @@ class ProductSeeder extends Seeder
                 'weight' => 500,
                 'stock' => 10,
                 'description' => 'Baju kemeja lengan pendek berkualitas tinggi',
-                'image' => 'products\baju\baju5.png',
+                'image' => 'products/baju/depanbaju5.webp',
             ],
-        
             [
-                'category_id' => 2,
-                'name' => 'Jeans Washed Denim Panjang',
-                'price' => 320000,
-                'weight' => 800,
+                'category_id' => 1,
+                'name' => 'T-Shirt Vintage STS',
+                'price' => 145000,
+                'weight' => 500,
                 'stock' => 10,
-                'description' => 'Jeans washed denim panjang berkualitas tinggi',
-                'image' => 'products\celana\celana1.png',
+                'description' => 'T-Shirt vintage berkualitas tinggi',
+                'image' => 'products/baju/depanbaju6.webp',
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Oversized T-Shirt STS',
+                'price' => 160000,
+                'weight' => 500,
+                'stock' => 10,
+                'description' => 'T-Shirt oversized fit berkualitas tinggi',
+                'image' => 'products/baju/depanbaju7.webp',
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Retro Stripe Tee',
+                'price' => 125000,
+                'weight' => 500,
+                'stock' => 10,
+                'description' => 'Kaos motif garis retro yang nyaman',
+                'image' => 'products/baju/depanbaju8.webp',
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Classic Pocket Tee',
+                'price' => 115000,
+                'weight' => 500,
+                'stock' => 10,
+                'description' => 'Kaos polos dengan saku klasik',
+                'image' => 'products/baju/depanbaju9.webp',
             ],
 
+            // Celana (Category 2)
             [
                 'category_id' => 2,
-                'name' => 'Jeans Hitam Panjang Polos',
-                'price' => 95000,
+                'name' => 'Streetwear Cargo Pants',
+                'price' => 280000,
                 'weight' => 800,
                 'stock' => 10,
-                'description' => 'Jeans hitam panjang polos berkualitas tinggi',
-                'image' => 'products\celana\celana2.png',
+                'description' => 'Celana kargo streetwear premium',
+                'image' => 'products/celana/depancelana1.webp',
             ],
 
-            [
-                'category_id' => 2,
-                'name' => 'Jeans Denim Hitam',
-                'price' => 185000,
-                'weight' => 800,
-                'stock' => 10,
-                'description' => 'Jeans denim hitam berkualitas tinggi',
-                'image' => 'products\celana\celana4.png',
-            ],
-
-            [
-                'category_id' => 2,
-                'name' => 'Jeans Denim Biru Muda',
-                'price' => 250000,
-                'weight' => 800,
-                'stock' => 10,
-                'description' => 'Jeans denim biru muda berkualitas tinggi',
-                'image' => 'products\celana\celana5.png',
-            ],
-
+            // Topi (Category 3)
             [
                 'category_id' => 3,
-                'name' => 'Topi STS',
+                'name' => 'Topi STS Classic',
                 'price' => 158000,
                 'weight' => 200,
                 'stock' => 10,
                 'description' => 'Topi nyaman dan stylish',
-                'image' => 'products\topi\topi1.png',
+                'image' => 'products/topi/topi1.webp',
             ],
-
-            [
-                'category_id' => 3,
-                'name' => 'Topi Putih Keren',
-                'price' => 165000,
-                'weight' => 200,
-                'stock' => 10,
-                'description' => 'Topi nyaman dan stylish',
-                'image' => 'products\topi\topi2.png',
-            ],
-
-            [
-                'category_id' => 3,
-                'name' => 'Topi Denim Hitam',
-                'price' => 90000,
-                'weight' => 200,
-                'stock' => 10,
-                'description' => 'Topi nyaman dan stylish',
-                'image' => 'products\topi\topi3.png',
-            ],
-
-            [
-                'category_id' => 3,
-                'name' => 'Topi Hitam Polos',
-                'price' => 90000,
-                'weight' => 200,
-                'stock' => 10,
-                'description' => 'Topi nyaman dan stylish',
-                'image' => 'products\topi\topi4.png',
-            ],
-            
-            [
-                'category_id' => 4,
-                'name' => 'Hoodie STS',
-                'price' => 250000,
-                'weight' => 1000,
-                'stock' => 10,
-                'description' => 'Hoodie nyaman dan stylish',
-                'image' => 'products\hodie\hodie1.png',
-            ],
-            
-            [
-                'category_id' => 4,
-                'name' => 'Hoodie Hitam Polos',
-                'price' => 220000,
-                'weight' => 1000,
-                'stock' => 10,
-                'description' => 'Hoodie nyaman dan stylish',
-                'image' => 'products\hodie\hodie2.png',
-            ],
-            
-            [
-                'category_id' => 4,
-                'name' => 'Hoodie Crop Top Hitam',
-                'price' => 280000,
-                'weight' => 1000,
-                'stock' => 10,
-                'description' => 'Hoodie nyaman dan stylish',
-                'image' => 'products\hodie\hodie3.png',
-            ],
-            
-            [
-                'category_id' => 4,
-                'name' => 'Hoodie Double Zipper',
-                'price' => 200000,
-                'weight' => 1000,
-                'stock' => 10,
-                'description' => 'Hoodie nyaman dan stylish',
-                'image' => 'products\hodie\hodie4.png',
-            ],
-
         ];
 
         foreach ($products as $product) {

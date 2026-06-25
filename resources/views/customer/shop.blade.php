@@ -15,9 +15,9 @@
                 </h1>
                 <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em] mt-2">
                     @if (request('search'))
-                        Ditemukan {{ $products->total() }} artikel yang sesuai dengan kueri anda.
+                        Menemukan {{ $products->total() }} artikel yang cocok dengan pencarian Anda.
                     @else
-                        Menampilkan {{ $products->total() }} rilisan pilihan yang dikurasi secara eksklusif.
+                        Koleksi artikel pilihan yang dikurasi secara eksklusif.
                     @endif
                 </p>
             </div>
@@ -64,15 +64,18 @@
                 <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400">URUTKAN:</span>
                 <select onchange="location = this.value;"
                     class="bg-zinc-50 border-2 border-zinc-100 rounded-xl px-4 py-2 text-[9px] font-black uppercase tracking-widest focus:border-zinc-950 focus:ring-0 transition-all text-zinc-950 cursor-pointer">
-                    <option value="{{ route('customer.shop.index', array_merge(request()->query(), ['sort' => 'latest', 'page' => null])) }}"
+                    <option
+                        value="{{ route('customer.shop.index', array_merge(request()->query(), ['sort' => 'latest', 'page' => null])) }}"
                         {{ request('sort') == 'latest' || !request('sort') ? 'selected' : '' }}>
                         Terbaru
                     </option>
-                    <option value="{{ route('customer.shop.index', array_merge(request()->query(), ['sort' => 'price_low', 'page' => null])) }}"
+                    <option
+                        value="{{ route('customer.shop.index', array_merge(request()->query(), ['sort' => 'price_low', 'page' => null])) }}"
                         {{ request('sort') == 'price_low' ? 'selected' : '' }}>
                         Harga: Terendah
                     </option>
-                    <option value="{{ route('customer.shop.index', array_merge(request()->query(), ['sort' => 'price_high', 'page' => null])) }}"
+                    <option
+                        value="{{ route('customer.shop.index', array_merge(request()->query(), ['sort' => 'price_high', 'page' => null])) }}"
                         {{ request('sort') == 'price_high' ? 'selected' : '' }}>
                         Harga: Tertinggi
                     </option>
@@ -92,11 +95,17 @@
                     <div class="relative aspect-[3/4] overflow-hidden rounded-xl bg-zinc-50 mb-5 cursor-pointer"
                         onclick="window.location='{{ route('customer.shop.show', $product) }}'">
 
-                        {{-- Gambar Produk: Efek zoom scale-105 saat hover tetap jalan untuk semua produk --}}
+                        {{-- Gambar Produk dengan Hover Swap --}}
                         @if ($product->image)
+                            {{-- Front Image --}}
                             <img src="{{ asset('storage/' . $product->image) }}"
-                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105
-                               {{ $product->stock == 0 ? 'opacity-50 grayscale-[20%]' : '' }}">
+                                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 @if ($product->back_image_url) group-hover:opacity-0 @endif {{ $product->stock == 0 ? 'opacity-50 grayscale-[20%]' : '' }}">
+
+                            {{-- Back Image (Optional Hover Swap) --}}
+                            @if ($product->back_image_url)
+                                <img src="{{ $product->back_image_url }}"
+                                    class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100 {{ $product->stock == 0 ? 'opacity-50 grayscale-[20%]' : '' }}">
+                            @endif
                         @else
                             <div
                                 class="w-full h-full flex items-center justify-center text-[10px] font-black text-zinc-300">
@@ -111,7 +120,7 @@
                                 class="absolute inset-0 bg-zinc-950/5 flex items-center justify-center backdrop-blur-[0.5px]">
                                 <span
                                     class="bg-zinc-950 text-white text-[9px] font-black uppercase tracking-[0.2em] px-4 py-2.5 rounded-lg shadow-xl italic border border-zinc-800">
-                                    HABIS TERSISA
+                                    SOLD OUT
                                 </span>
                             </div>
                         @elseif ($product->stock <= 5 && $product->stock > 0)
@@ -173,21 +182,25 @@
 
         {{-- Custom Pagination --}}
         @if ($products->hasPages())
-            <div class="pb-20 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-100 pt-8 mt-8">
+            <div
+                class="pb-20 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-100 pt-8 mt-8">
                 {{-- Info (Desktop Only) --}}
                 <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em] order-2 sm:order-1">
-                    Menampilkan {{ $products->firstItem() }} sampai {{ $products->lastItem() }} dari {{ $products->total() }} Artikel
+                    Menampilkan {{ $products->firstItem() }} – {{ $products->lastItem() }} dari {{ $products->total() }}
+                    Artikel
                 </div>
 
                 {{-- Page Links (Responsive) --}}
                 <div class="flex items-center gap-1.5 order-1 sm:order-2">
                     {{-- Previous Page --}}
                     @if ($products->onFirstPage())
-                        <span class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-300 rounded-xl cursor-not-allowed italic">
+                        <span
+                            class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-300 rounded-xl cursor-not-allowed italic">
                             ← Prev
                         </span>
                     @else
-                        <a href="{{ $products->previousPageUrl() }}" class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-950 border border-zinc-100 rounded-xl hover:bg-zinc-950 hover:text-white hover:border-zinc-950 transition-all italic active:scale-95">
+                        <a href="{{ $products->previousPageUrl() }}"
+                            class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-950 border border-zinc-100 rounded-xl hover:bg-zinc-950 hover:text-white hover:border-zinc-950 transition-all italic active:scale-95">
                             ← Prev
                         </a>
                     @endif
@@ -196,11 +209,13 @@
                     <div class="hidden sm:flex items-center gap-1.5">
                         @foreach ($products->getUrlRange(max(1, $products->currentPage() - 2), min($products->lastPage(), $products->currentPage() + 2)) as $page => $url)
                             @if ($page == $products->currentPage())
-                                <span class="px-3.5 py-2.5 text-[9px] font-black bg-zinc-950 text-white rounded-xl shadow-lg shadow-zinc-950/10 italic">
+                                <span
+                                    class="px-3.5 py-2.5 text-[9px] font-black bg-zinc-950 text-white rounded-xl shadow-lg shadow-zinc-950/10 italic">
                                     {{ $page }}
                                 </span>
                             @else
-                                <a href="{{ $url }}" class="px-3.5 py-2.5 text-[9px] font-black text-zinc-500 bg-zinc-50 border border-zinc-100 hover:text-zinc-950 hover:bg-zinc-100 hover:border-zinc-200 rounded-xl transition-all italic active:scale-95">
+                                <a href="{{ $url }}"
+                                    class="px-3.5 py-2.5 text-[9px] font-black text-zinc-500 bg-zinc-50 border border-zinc-100 hover:text-zinc-950 hover:bg-zinc-100 hover:border-zinc-200 rounded-xl transition-all italic active:scale-95">
                                     {{ $page }}
                                 </a>
                             @endif
@@ -214,11 +229,13 @@
 
                     {{-- Next Page --}}
                     @if ($products->hasMorePages())
-                        <a href="{{ $products->nextPageUrl() }}" class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-950 border border-zinc-100 rounded-xl hover:bg-zinc-950 hover:text-white hover:border-zinc-950 transition-all italic active:scale-95">
+                        <a href="{{ $products->nextPageUrl() }}"
+                            class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-950 border border-zinc-100 rounded-xl hover:bg-zinc-950 hover:text-white hover:border-zinc-950 transition-all italic active:scale-95">
                             Next ➔
                         </a>
                     @else
-                        <span class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-300 rounded-xl cursor-not-allowed italic">
+                        <span
+                            class="px-3.5 py-2.5 text-[9px] font-black uppercase tracking-widest bg-zinc-50 text-zinc-300 rounded-xl cursor-not-allowed italic">
                             Next ➔
                         </span>
                     @endif
@@ -227,4 +244,6 @@
         @endif
 
     </div>
+
+
 @endsection

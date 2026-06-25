@@ -1,11 +1,27 @@
-<nav class="fixed top-0 w-full z-[100] bg-white/90 backdrop-blur-md border-b border-zinc-100" x-data="{ mobileMenuOpen: false, profileMenuOpen: false }">
+@php
+    $isHome = request()->routeIs('home');
+@endphp
+
+<nav x-data="{
+    mobileMenuOpen: false,
+    profileMenuOpen: false,
+    isScrolled: false,
+    isHome: {{ $isHome ? 'true' : 'false' }}
+}"
+    @scroll.window="isScrolled = (window.pageYOffset > (document.getElementById('home')?.clientHeight - 80 || 20))"
+    :class="{
+        'bg-white/95 backdrop-blur-md border-zinc-100 shadow-sm': !isHome || isScrolled || mobileMenuOpen,
+        'bg-transparent border-transparent': isHome && !isScrolled && !mobileMenuOpen
+    }"
+    class="fixed top-0 w-full z-[100] border-b transition-all duration-500">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative">
 
         {{-- Left Side: Hamburger (Mobile Only) & Logo (Desktop) --}}
-        <div class="flex items-center">
+        <div class="flex items-center gap-4">
             {{-- Hamburger Button --}}
             <button @click="mobileMenuOpen = !mobileMenuOpen"
-                class="md:hidden p-2 -ml-2 text-zinc-950 focus:outline-none z-[110]">
+                :class="(!isHome || isScrolled || mobileMenuOpen) ? 'text-zinc-950' : 'text-white'"
+                class="md:hidden p-2 -ml-2 focus:outline-none z-[110] transition-colors duration-500">
                 <svg class="w-6 h-6 transition-transform duration-300" :class="{ 'rotate-90': mobileMenuOpen }"
                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -17,20 +33,24 @@
 
             {{-- Logo: Center on Mobile, Left on Desktop --}}
             <a href="{{ route('home') }}"
-                class="text-2xl font-black italic tracking-tighter uppercase absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 transition-opacity hover:opacity-70">
-                STS<span class="text-zinc-300">.</span>
+                :class="(!isHome || isScrolled || mobileMenuOpen) ? 'text-zinc-950' : 'text-white'"
+                class="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:ml-4 transition-colors duration-500 hover:opacity-70">
+                @if (!empty($siteLogo))
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo"
+                        class="h-11 md:h-14 w-auto object-contain">
+                @else
+                    <span class="text-2xl font-black italic tracking-tighter uppercase">STS<span
+                            :class="(!isHome || isScrolled || mobileMenuOpen) ? 'text-zinc-300' : 'text-zinc-400'">.</span></span>
+                @endif
             </a>
         </div>
 
         {{-- Center: Desktop Navigation --}}
         <div class="hidden md:flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.3em]">
-            <a href="/#home" data-section="home" class="nav-link text-zinc-400 transition-all duration-300">Beranda</a>
-            <a href="/#products" data-section="products"
-                class="nav-link text-zinc-400 transition-all duration-300">Produk</a>
-            <a href="/#superiority" data-section="superiority"
-                class="nav-link text-zinc-400 transition-all duration-300">Keunggulan</a>
-            <a href="/#contact" data-section="contact"
-                class="nav-link text-zinc-400 transition-all duration-300">Kontak</a>
+            <a href="/#home" data-section="home" class="nav-link">Beranda</a>
+            <a href="/#products" data-section="products" class="nav-link">Produk</a>
+            <a href="/#superiority" data-section="superiority" class="nav-link">Keunggulan</a>
+            <a href="/#contact" data-section="contact" class="nav-link">Kontak</a>
         </div>
 
         {{-- Right Side: Action Buttons --}}
@@ -38,7 +58,10 @@
 
             {{-- 1. Ikon Keranjang Belanja --}}
             <a href="{{ route('customer.cart.index') }}"
-                class="p-2.5 border-2 border-zinc-100 rounded-full hover:border-zinc-950 hover:scale-105 transition-all relative group bg-white text-zinc-950">
+                :class="(!isHome || isScrolled || mobileMenuOpen) ?
+                'border-zinc-100 text-zinc-950 bg-white hover:border-zinc-950' :
+                'border-white/10 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-zinc-950 hover:border-white'"
+                class="p-2.5 border-2 rounded-full hover:scale-105 transition-all duration-300 relative group">
 
                 <svg class="w-4 h-4 transition-transform group-hover:-rotate-3" fill="none" stroke="currentColor"
                     stroke-width="2.5" viewBox="0 0 24 24">
@@ -63,7 +86,9 @@
             @auth
                 <div class="relative">
                     <button @click="profileMenuOpen = !profileMenuOpen" @click.away="profileMenuOpen = false"
-                        class="flex items-center gap-2 {{ auth()->user()->avatar ? 'p-1' : 'p-2.5' }} border-2 border-zinc-100 rounded-full hover:border-zinc-950 transition-all overflow-hidden">
+                        :class="(!isHome || isScrolled || mobileMenuOpen) ? 'border-zinc-100 hover:border-zinc-950' :
+                        'border-white/10 hover:border-white text-white'"
+                        class="flex items-center gap-2 {{ auth()->user()->avatar ? 'p-1' : 'p-2.5' }} border-2 rounded-full transition-all duration-300 overflow-hidden">
                         @if (auth()->user()->avatar)
                             <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
                                 class="w-7 h-7 rounded-full object-cover">
@@ -93,7 +118,10 @@
                 </div>
             @else
                 <a href="{{ route('login') }}"
-                    class="px-5 py-2 border-2 border-zinc-950 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-zinc-950 hover:text-white transition-all">
+                    :class="(!isHome || isScrolled || mobileMenuOpen) ?
+                    'border-zinc-950 hover:bg-zinc-950 hover:text-white text-zinc-950' :
+                    'border-white hover:bg-white hover:text-zinc-950 text-white'"
+                    class="px-5 py-2 border-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all duration-300">
                     Masuk
                 </a>
             @endauth
@@ -107,13 +135,13 @@
 
             <nav class="flex flex-col gap-6">
                 <a href="/#home" @click="mobileMenuOpen = false" data-section="home"
-                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-400">Beranda</a>
+                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-900">Beranda</a>
                 <a href="/#products" @click="mobileMenuOpen = false" data-section="products"
-                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-400">Produk</a>
+                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-900">Produk</a>
                 <a href="/#superiority" @click="mobileMenuOpen = false" data-section="superiority"
-                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-400">Keunggulan</a>
+                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-900">Keunggulan</a>
                 <a href="/#contact" @click="mobileMenuOpen = false" data-section="contact"
-                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-400">Kontak</a>
+                    class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-900">Kontak</a>
             </nav>
         </div>
     </div>

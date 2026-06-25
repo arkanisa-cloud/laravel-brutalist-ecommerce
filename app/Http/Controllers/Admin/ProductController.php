@@ -8,42 +8,22 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * ProductController
- * Controller untuk CRUD produk
- */
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * Menampilkan semua produk dengan pagination
-     */
     public function index()
     {
-        $products = Product::with('category')
-            ->latest()
-            ->get();
-
+        $products = Product::with('category')->latest()->get();
         return view('admin.products.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * Tampilkan form tambah produk
-     */
     public function create()
     {
         $categories = Category::active()->get();
         return view('admin.products.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * Simpan produk baru
-     */
     public function store(Request $request)
     {
-        // Validasi input
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
@@ -51,40 +31,27 @@ class ProductController extends Controller
             'weight' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Maks 2MB
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', 
         ]);
 
-        // Upload gambar jika ada
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-            $validated['image'] = $imagePath;
+            // Panggil fungsi konversi WebP buatan kita sendiri
+            $validated['image'] = $this->convertToWebp($request->file('image'));
         }
 
-        // Simpan produk
         Product::create($validated);
 
-        return redirect()
-            ->route('admin.products.index')
-            ->with('success', 'Produk berhasil ditambahkan.');
+        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * Tampilkan form edit produk
-     */
     public function edit(Product $product)
     {
         $categories = Category::active()->get();
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * Update produk
-     */
     public function update(Request $request, Product $product)
     {
-        // Validasi input
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
@@ -92,45 +59,71 @@ class ProductController extends Controller
             'weight' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Maks 2MB
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', 
         ]);
 
-        // Upload gambar baru jika ada
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
             }
-
-            // Upload gambar baru
-            $imagePath = $request->file('image')->store('products', 'public');
-            $validated['image'] = $imagePath;
+            
+            // Panggil fungsi konversi WebP buatan kita sendiri
+            $validated['image'] = $this->convertToWebp($request->file('image'));
         }
 
-        // Update produk
         $product->update($validated);
 
-        return redirect()
-            ->route('admin.products.index')
-            ->with('success', 'Produk berhasil diupdate.');
+        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * Hapus produk
-     */
     public function destroy(Product $product)
     {
-        // Hapus gambar jika ada
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
-
-        // Hapus produk
         $product->delete();
 
-        return redirect()
-            ->route('admin.products.index')
-            ->with('success', 'Produk berhasil dihapus.');
+        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus.');
+    }
+
+    /**
+     * Fungsi Helper Native PHP untuk Konversi ke WebP
+     */
+    private function convertToWebp($file)
+    {
+        $sourcePath = $file->getPathname();
+        $mime = $file->getMimeType();
+        $sourceImage = null;
+
+        // 1. Baca gambar ke memori berdasarkan format aslinya
+        if ($mime == 'image/jpeg') {
+            $sourceImage = imagecreatefromjpeg($sourcePath);
+        } elseif ($mime == 'image/png') {
+            $sourceImage = imagecreatefrompng($sourcePath);
+            
+            // Pertahankan transparansi (alpha channel) agar background PNG tidak jadi hitam
+            imagepalettetotruecolor($sourceImage);
+            imagealphablending($sourceImage, true);
+            imagesavealpha($sourceImage, true);
+        }
+
+        if ($sourceImage) {
+            // 2. Gunakan Output Buffering (ob_start) untuk menangkap hasil konversi dari memori
+            ob_start();
+            imagewebp($sourceImage, null, 80); // Angka 80 adalah kualitas kompresi (0-100)
+            $imageContent = ob_get_clean();
+            
+            // 3. Bersihkan RAM
+            imagedestroy($sourceImage);
+
+            // 4. Simpan menggunakan Storage Laravel agar konsisten dengan ekosistem aplikasi
+            $filename = 'products/' . uniqid('sts_') . '.webp';
+            Storage::disk('public')->put($filename, $imageContent);
+
+            return $filename;
+        }
+
+        // Fallback: Jika PHP gagal mengonversi (misal karena file rusak), jalankan metode bawaan Laravel
+        return $file->store('products', 'public');
     }
 }

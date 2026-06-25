@@ -67,8 +67,11 @@ class OrderController extends Controller
             'status' => 'required|in:processed,shipped,completed,cancelled',
         ]);
 
-        // Validasi: tidak bisa update jika belum bayar (kecuali cancel)
-        if ($order->payment_status !== 'paid' && $validated['status'] !== 'cancelled') {
+        // Check if COD order
+        $isCod = $order->payment && $order->payment->payment_method === 'cod';
+
+        // Validasi: tidak bisa update jika belum bayar (kecuali cancel atau pesanan COD)
+        if (!$isCod && $order->payment_status !== 'paid' && $validated['status'] !== 'cancelled') {
             return back()->with('error', 'Tidak bisa update status. Pesanan belum lunas.');
         }
 
@@ -88,7 +91,20 @@ class OrderController extends Controller
             return back()->with('error', 'Tidak bisa mengubah status dari ' . $currentStatus . ' ke ' . $newStatus);
         }
 
-        $order->update(['status' => $newStatus]);
+        // Jika COD selesai, maka otomatis lunas
+        if ($isCod && $newStatus === 'completed') {
+            $order->payment->update([
+                'status' => 'verified',
+                'verified_at' => now(),
+                'admin_notes' => 'Pembayaran COD diterima saat pengiriman selesai',
+            ]);
+            $order->update([
+                'status' => $newStatus,
+                'payment_status' => 'paid'
+            ]);
+        } else {
+            $order->update(['status' => $newStatus]);
+        }
 
         return back()->with('success', 'Status pesanan berhasil diupdate menjadi ' . $newStatus);
     }

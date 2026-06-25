@@ -89,7 +89,8 @@
                             </tbody>
                             <tfoot class="border-t border-zinc-100 text-xs font-bold text-zinc-800">
                                 <tr>
-                                    <td colspan="3" class="pt-4 text-right text-[9px] font-black uppercase tracking-widest text-zinc-400">
+                                    <td colspan="3"
+                                        class="pt-4 text-right text-[9px] font-black uppercase tracking-widest text-zinc-400">
                                         Subtotal Produk:
                                     </td>
                                     <td class="pt-4 text-right italic font-medium text-zinc-700">
@@ -97,15 +98,27 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="py-2 text-right text-[9px] font-black uppercase tracking-widest text-zinc-400">
-                                        Ongkos Kirim ({{ strtoupper($order->shipping_courier) }} - {{ $order->shipping_service }}):
+                                    <td colspan="3"
+                                        class="py-2 text-right text-[9px] font-black uppercase tracking-widest text-zinc-400">
+                                        Ongkos Kirim ({{ strtoupper($order->shipping_courier) }} -
+                                        {{ $order->shipping_service }}):
                                     </td>
                                     <td class="py-2 text-right italic font-medium text-zinc-700">
                                         IDR {{ number_format($order->shipping_cost, 0, ',', '.') }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colspan="3"
+                                        class="py-2 text-right text-[9px] font-black uppercase tracking-widest text-zinc-400">
+                                        Metode Pembayaran:
+                                    </td>
+                                    <td class="py-2 text-right text-xs font-black uppercase text-zinc-950 italic">
+                                        {{ $order->payment->payment_method_label ?? '-' }}
+                                    </td>
+                                </tr>
                                 <tr class="border-t-2 border-zinc-950">
-                                    <td colspan="3" class="pt-4 text-right text-[10px] font-black uppercase tracking-widest text-zinc-950">
+                                    <td colspan="3"
+                                        class="pt-4 text-right text-[10px] font-black uppercase tracking-widest text-zinc-950">
                                         Total Pembayaran:
                                     </td>
                                     <td class="pt-4 text-right text-base font-black italic text-zinc-950">
@@ -140,16 +153,26 @@
 
                         <div class="pt-4 border-t border-zinc-100 space-y-2 text-xs font-bold text-zinc-800">
                             <div class="flex justify-between items-center">
-                                <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400">Subtotal Produk</span>
-                                <span class="italic font-medium text-zinc-700">IDR {{ number_format($order->orderItems->sum('subtotal'), 0, ',', '.') }}</span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400">Subtotal
+                                    Produk</span>
+                                <span class="italic font-medium text-zinc-700">IDR
+                                    {{ number_format($order->orderItems->sum('subtotal'), 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400">Ongkos Kirim ({{ strtoupper($order->shipping_courier) }} - {{ $order->shipping_service }})</span>
-                                <span class="italic font-medium text-zinc-700">IDR {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400">Ongkos Kirim
+                                    ({{ strtoupper($order->shipping_courier) }} - {{ $order->shipping_service }})</span>
+                                <span class="italic font-medium text-zinc-700">IDR
+                                    {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400">Metode Pembayaran</span>
+                                <span class="text-xs font-black uppercase text-zinc-950 italic">{{ $order->payment->payment_method_label ?? '-' }}</span>
                             </div>
                             <div class="pt-3 border-t border-zinc-950 flex justify-between items-baseline text-zinc-950">
-                                <span class="text-[9px] font-black uppercase tracking-widest text-zinc-950">Total Pembayaran</span>
-                                <span class="text-base font-black italic tracking-tight">{{ $order->formatted_total }}</span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-zinc-950">Total
+                                    Pembayaran</span>
+                                <span
+                                    class="text-base font-black italic tracking-tight">{{ $order->formatted_total }}</span>
                             </div>
                         </div>
                     </div>
@@ -182,37 +205,52 @@
                         <span class="w-1.5 h-3 bg-zinc-950 block"></span> Status Pembayaran
                     </h2>
 
+                    <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-wider text-zinc-400 border-b border-zinc-50 pb-3">
+                        <span>Metode Pembayaran:</span>
+                        <span class="text-zinc-950 italic">{{ $order->payment->payment_method_label ?? '-' }}</span>
+                    </div>
+
                     @if ($order->payment_status === 'unpaid')
-                        <div
-                            class="p-3.5 bg-amber-50/70 border border-amber-100 rounded-xl text-xs font-bold text-amber-700 italic flex items-center gap-2">
-                            <span>⚠ Belum Ada Transaksi Pembayaran</span>
-                        </div>
+                        @if ($order->payment && $order->payment->payment_method === 'cod')
+                            <div
+                                class="p-3.5 bg-zinc-100 border border-zinc-200 rounded-xl text-xs font-bold text-zinc-700 italic flex items-center gap-2">
+                                <span>✓ Bayar di Tempat (COD)</span>
+                            </div>
+                            <p class="text-[9px] font-medium leading-relaxed text-zinc-400 uppercase tracking-wider italic">
+                                * Pembayaran akan dilakukan secara tunai langsung kepada kurir saat pesanan tiba di alamat Anda.
+                            </p>
+                        @else
+                            <div
+                                class="p-3.5 bg-amber-50/70 border border-amber-100 rounded-xl text-xs font-bold text-amber-700 italic flex items-center gap-2">
+                                <span>⚠ Belum Ada Transaksi Pembayaran</span>
+                            </div>
 
-                        <button type="button" @click="uploadOpen = !uploadOpen"
-                            class="w-full py-3 bg-zinc-950 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all rounded-xl text-center shadow-md">
-                            Upload Bukti Pembayaran
-                        </button>
+                            <button type="button" @click="uploadOpen = !uploadOpen"
+                                class="w-full py-3 bg-zinc-950 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all rounded-xl text-center shadow-md">
+                                Upload Bukti Pembayaran
+                            </button>
 
-                        {{-- Panel Dropdown Form Upload via Alpine.js --}}
-                        <div x-show="uploadOpen" x-transition x-cloak class="pt-2">
-                            <form action="{{ route('customer.orders.payment', $order) }}" method="POST"
-                                enctype="multipart/form-data"
-                                class="space-y-3.5 p-4 bg-zinc-50 border border-zinc-100 rounded-xl">
-                                @csrf
-                                <div class="space-y-1.5">
-                                    <label class="text-[9px] font-black uppercase tracking-widest text-zinc-400">Berkas
-                                        Bukti Transfer</label>
-                                    <input type="file" name="proof" required accept="image/jpeg,image/png,image/jpg"
-                                        class="w-full text-xs text-zinc-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-[9px] file:font-black file:uppercase file:tracking-wider file:bg-zinc-950 file:text-white file:cursor-pointer hover:file:bg-zinc-800">
-                                    <p class="text-[8px] font-medium text-zinc-400 uppercase tracking-wider italic">*
-                                        Format: JPEG/PNG, Maksimal 2MB</p>
-                                </div>
-                                <button type="submit"
-                                    class="w-full py-2.5 bg-emerald-600 text-white text-[9px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all rounded-lg text-center">
-                                    Kirim Bukti Konfirmasi
-                                </button>
-                            </form>
-                        </div>
+                            {{-- Panel Dropdown Form Upload via Alpine.js --}}
+                            <div x-show="uploadOpen" x-transition x-cloak class="pt-2">
+                                <form action="{{ route('customer.orders.payment', $order) }}" method="POST"
+                                    enctype="multipart/form-data"
+                                    class="space-y-3.5 p-4 bg-zinc-50 border border-zinc-100 rounded-xl">
+                                    @csrf
+                                    <div class="space-y-1.5">
+                                        <label class="text-[9px] font-black uppercase tracking-widest text-zinc-400">Berkas
+                                            Bukti Transfer</label>
+                                        <input type="file" name="proof" required accept="image/jpeg,image/png,image/jpg"
+                                            class="w-full text-xs text-zinc-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-[9px] file:font-black file:uppercase file:tracking-wider file:bg-zinc-950 file:text-white file:cursor-pointer hover:file:bg-zinc-800">
+                                        <p class="text-[8px] font-medium text-zinc-400 uppercase tracking-wider italic">*
+                                            Format: JPEG/PNG, Maksimal 2MB</p>
+                                    </div>
+                                    <button type="submit"
+                                        class="w-full py-2.5 bg-emerald-600 text-white text-[9px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all rounded-lg text-center">
+                                        Kirim Bukti Konfirmasi
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
                     @elseif($order->payment_status === 'pending')
                         <div
                             class="p-3.5 bg-zinc-950 text-white border border-zinc-950 rounded-xl text-xs font-bold italic flex items-center gap-2 animate-pulse">
@@ -255,7 +293,8 @@
                         </div>
 
                         @if ($order->payment->admin_notes)
-                            <div class="p-4 bg-zinc-50 border border-zinc-100 rounded-xl text-xs font-medium text-zinc-600">
+                            <div
+                                class="p-4 bg-zinc-50 border border-zinc-100 rounded-xl text-xs font-medium text-zinc-600">
                                 <strong class="text-[9px] font-black uppercase text-rose-600 block mb-1">Alasan
                                     Penolakan:</strong>
                                 <p class="leading-relaxed">{{ $order->payment->admin_notes }}</p>

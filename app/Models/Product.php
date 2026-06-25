@@ -81,6 +81,24 @@ class Product extends Model
     }
 
     /**
+     * Accessor: URL gambar belakang produk (jika ada)
+     */
+    public function getBackImageUrlAttribute(): ?string
+    {
+        if ($this->image) {
+            if (str_contains($this->image, 'depanbaju')) {
+                $backImage = str_replace('depanbaju', 'blkgbaju', $this->image);
+                return asset('storage/' . $backImage);
+            }
+            if (str_contains($this->image, 'depancelana')) {
+                $backImage = str_replace('depancelana', 'blkgcelana', $this->image);
+                return asset('storage/' . $backImage);
+            }
+        }
+        return null;
+    }
+
+    /**
      * Cek apakah stok tersedia cukup
      */
     public function hasStock(int $qty): bool

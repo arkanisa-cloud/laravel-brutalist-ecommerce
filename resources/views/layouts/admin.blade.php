@@ -178,12 +178,21 @@
                 <a href="{{ route('admin.categories.index') }}"
                     class="flex items-center px-4 py-3 rounded-md transition-all duration-200 group
             {{ request()->routeIs('admin.categories.*') ? 'bg-zinc-900 text-white font-medium shadow-sm' : 'hover:text-zinc-200 hover:bg-zinc-900/50' }}">
+                    <svg class="w-4 h-4 mr-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 002.122 0l4.75-4.75a1.5 1.5 0 000-2.122L10.74 3.659A2.25 2.25 0 009.568 3Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 6h.008v.008H6V6Z" />
+                    </svg>
                     <span class="text-[11px] uppercase tracking-[0.15em]">Categories</span>
                 </a>
 
                 <a href="{{ route('admin.products.index') }}"
                     class="flex items-center px-4 py-3 rounded-md transition-all duration-200 group
             {{ request()->routeIs('admin.products.*') ? 'bg-zinc-900 text-white font-medium shadow-sm' : 'hover:text-zinc-200 hover:bg-zinc-900/50' }}">
+                    <svg class="w-4 h-4 mr-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0Zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0Z" />
+                    </svg>
                     <span class="text-[11px] uppercase tracking-[0.15em]">Products</span>
                 </a>
 
@@ -193,18 +202,30 @@
                 <a href="{{ route('admin.stock-ins.index') }}"
                     class="flex items-center px-4 py-3 rounded-md transition-all duration-200 group
             {{ request()->routeIs('admin.stock-ins.*') ? 'bg-zinc-900 text-white font-medium' : 'hover:text-zinc-200 hover:bg-zinc-900/50' }}">
+                    <svg class="w-4 h-4 mr-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>
                     <span class="text-[11px] uppercase tracking-[0.15em]">Stock In</span>
                 </a>
 
                 <a href="{{ route('admin.stock-outs.index') }}"
                     class="flex items-center px-4 py-3 rounded-md transition-all duration-200 group
             {{ request()->routeIs('admin.stock-outs.*') ? 'bg-zinc-900 text-white font-medium' : 'hover:text-zinc-200 hover:bg-zinc-900/50' }}">
+                    <svg class="w-4 h-4 mr-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                    </svg>
                     <span class="text-[11px] uppercase tracking-[0.15em]">Stock Out</span>
                 </a>
 
                 <a href="{{ route('admin.orders.index') }}"
                     class="flex items-center px-4 py-3 rounded-md transition-all duration-200 group
             {{ request()->routeIs('admin.orders.*') ? 'bg-zinc-900 text-white font-medium' : 'hover:text-zinc-200 hover:bg-zinc-900/50' }}">
+                    <svg class="w-4 h-4 mr-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0Zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0Z" />
+                    </svg>
                     <span class="text-[11px] uppercase tracking-[0.15em]">Orders</span>
                 </a>
 
@@ -220,6 +241,20 @@
                         </path>
                     </svg>
                     <span class="text-[11px] uppercase tracking-[0.15em]">Reports</span>
+                </a>
+
+                <div class="pt-6 pb-2 px-4 text-[9px] font-bold text-zinc-600 uppercase tracking-[0.2em]">Website
+                </div>
+
+                <a href="{{ route('admin.site-settings.index') }}"
+                    class="flex items-center px-4 py-3 rounded-md transition-all duration-200 group
+            {{ request()->routeIs('admin.site-settings.*') ? 'bg-zinc-900 text-white font-medium shadow-sm' : 'hover:text-zinc-200 hover:bg-zinc-900/50' }}">
+                    <svg class="w-4 h-4 mr-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.764m3.42 3.42a6.776 6.776 0 00-3.42-3.42">
+                        </path>
+                    </svg>
+                    <span class="text-[11px] uppercase tracking-[0.15em]">Edit Website</span>
                 </a>
 
                 <div class="pt-6 pb-2 px-4 text-[9px] font-bold text-zinc-600 uppercase tracking-[0.2em]">Account

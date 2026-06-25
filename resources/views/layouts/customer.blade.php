@@ -19,32 +19,38 @@
     {{-- Navbar Customer --}}
     <nav x-data="{ mobileMenuOpen: false, profileMenuOpen: false }"
         class="fixed top-0 w-full z-[50] bg-white/80 backdrop-blur-md border-b border-zinc-100">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
 
-            {{-- Sisi Kiri: Logo --}}
-            <div class="flex items-center gap-2">
-                <a href="{{ route('home') }}" class="text-2xl font-black italic tracking-tighter uppercase">
-                    STS<span class="text-zinc-300">.</span>
-                </a>
-            </div>
-
-            {{-- Sisi Kanan: Action Buttons --}}
-            <div class="flex items-center gap-3 sm:gap-4">
-
-                {{-- 1. Tombol Beranda - Responsive --}}
+            {{-- Sisi Kiri: Tombol Kembali ke Beranda --}}
+            <div class="flex items-center md:ml-4 z-10">
                 <a href="{{ route('home') }}"
                     class="group flex items-center gap-2 p-2.5 md:px-5 md:py-2 border-2 border-zinc-950 rounded-full hover:bg-zinc-950 hover:text-white transition-all duration-300">
-                    <span class="text-[9px] font-black uppercase tracking-widest hidden md:inline">Beranda</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
+                    <span class="text-[9px] font-black uppercase tracking-widest hidden md:inline">Beranda</span>
                 </a>
+            </div>
 
-                {{-- 2. Ikon Keranjang Belanja --}}
+            {{-- Tengah: Logo --}}
+            <div class="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+                @if (!empty($siteLogo))
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo"
+                        class="h-11 md:h-14 w-auto object-contain">
+                @else
+                    <span class="text-2xl font-black italic tracking-tighter uppercase">STS<span
+                            class="text-zinc-300">.</span></span>
+                @endif
+            </div>
+
+            {{-- Sisi Kanan: Cart & Profil --}}
+            <div class="flex items-center gap-2 sm:gap-3 z-10">
+
+                {{-- Ikon Keranjang Belanja --}}
                 <a href="{{ route('customer.cart.index') }}"
                     class="p-2.5 border-2 border-zinc-100 rounded-full hover:border-zinc-950 hover:scale-105 transition-all relative group
-          {{ request()->routeIs('customer.cart.index') ? 'bg-zinc-950 text-white border-zinc-950' : 'bg-white text-zinc-950' }}">
+                    {{ request()->routeIs('customer.cart.index') ? 'bg-zinc-950 text-white border-zinc-950' : 'bg-white text-zinc-950' }}">
 
                     <svg class="w-4 h-4 transition-transform group-hover:-rotate-3" fill="none" stroke="currentColor"
                         stroke-width="2.5" viewBox="0 0 24 24">
@@ -59,15 +65,14 @@
                         @if ($cartCount > 0)
                             <span
                                 class="absolute -top-1 -right-1 text-white text-[8px] font-black w-4 h-4 flex items-center justify-center rounded-full border shadow-sm animate-pulse
-                         {{ request()->routeIs('customer.cart.index') ? 'bg-rose-600 border-zinc-950' : 'bg-zinc-950 border-white' }}">
+                                {{ request()->routeIs('customer.cart.index') ? 'bg-rose-600 border-zinc-950' : 'bg-zinc-950 border-white' }}">
                                 {{ $cartCount }}
                             </span>
                         @endif
                     @endauth
                 </a>
 
-
-                {{-- 3. Profil / Menu Dropdown --}}
+                {{-- Profil / Menu Dropdown --}}
                 @auth
                     <div class="relative">
                         <button @click="profileMenuOpen = !profileMenuOpen" @click.away="profileMenuOpen = false"
@@ -109,6 +114,8 @@
         @yield('content')
     </main>
 
+
+
     <script>
         toastr.options = {
             "closeButton": true,
@@ -121,6 +128,11 @@
         @endif
         @if (session('error'))
             toastr.error("{{ session('error') }}");
+        @endif
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
         @endif
     </script>
 </body>

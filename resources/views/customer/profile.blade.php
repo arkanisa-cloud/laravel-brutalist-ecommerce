@@ -3,7 +3,7 @@
 @section('title', 'Member Profile')
 
 @section('content')
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-12" x-data="{ isEditing: false }" x-cloak>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-12" x-data="{ isEditing: false, avatarPreview: null }" x-cloak>
 
         {{-- Header Hub --}}
         <div class="mb-8 sm:mb-12 border-b border-zinc-100 pb-6 sm:pb-8">
@@ -174,7 +174,7 @@
                         <h2 class="text-xs font-black uppercase tracking-[0.2em] text-zinc-950 flex items-center gap-3">
                             <span class="w-1.5 h-3 bg-zinc-950 block"></span> Form Pembaruan Data
                         </h2>
-                        <button type="button" @click="isEditing = false"
+                        <button type="button" @click="isEditing = false; avatarPreview = null; if($refs.avatarInput) $refs.avatarInput.value = ''"
                             class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-colors">
                             Batal [✕]
                         </button>
@@ -192,17 +192,23 @@
                             <div class="flex items-center gap-6">
                                 <div class="relative group">
                                     @if ($user->avatar)
-                                        <img src="{{ asset('storage/' . $user->avatar) }}"
+                                        <img src="{{ asset('storage/' . $user->avatar) }}" x-show="!avatarPreview"
                                             class="w-20 h-20 rounded-2xl object-cover border-2 border-zinc-100 shadow-md">
                                     @else
-                                        <div
+                                        <div x-show="!avatarPreview"
                                             class="w-20 h-20 bg-zinc-50 rounded-2xl border-2 border-zinc-100 flex items-center justify-center shadow-sm">
                                             <span class="text-[10px] font-black text-zinc-300 uppercase">Empty</span>
                                         </div>
                                     @endif
+
+                                    {{-- Preview Image --}}
+                                    <img :src="avatarPreview" x-show="avatarPreview"
+                                        class="w-20 h-20 rounded-2xl object-cover border-2 border-zinc-950 shadow-md"
+                                        x-cloak>
                                 </div>
                                 <div class="flex-1">
-                                    <input type="file" name="avatar"
+                                    <input type="file" name="avatar" x-ref="avatarInput"
+                                        @change="const file = $event.target.files[0]; if (file) { avatarPreview = URL.createObjectURL(file); }"
                                         class="w-full text-[10px] text-zinc-400 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-[9px] file:font-black file:uppercase file:tracking-widest file:bg-zinc-950 file:text-white hover:file:bg-zinc-800 file:transition-all">
                                     <p class="text-[8px] text-zinc-400 mt-2 font-bold uppercase tracking-widest italic">
                                         Format: JPG, PNG, WEBP (Max 2MB)</p>
@@ -274,7 +280,7 @@
 
                         {{-- Controls --}}
                         <div class="pt-6 border-t border-zinc-100 flex justify-end gap-3">
-                            <button type="button" @click="isEditing = false"
+                            <button type="button" @click="isEditing = false; avatarPreview = null; if($refs.avatarInput) $refs.avatarInput.value = ''"
                                 class="px-5 py-3 border border-zinc-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:bg-zinc-50 transition-all">
                                 Batal
                             </button>

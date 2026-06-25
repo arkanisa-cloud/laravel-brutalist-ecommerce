@@ -16,20 +16,50 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
 
             {{-- Left: Product Image (Column 1-6) --}}
-            <div class="lg:col-span-6 space-y-4">
+            <div class="lg:col-span-6 space-y-6" 
+                 x-data="{ activeIndex: 0 }">
                 <div class="relative aspect-square sm:aspect-[4/5] lg:max-h-[600px] bg-zinc-50 rounded-[2.5rem] overflow-hidden border border-zinc-100 group shadow-sm mx-auto">
-                    @if ($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                    @else
-                        <div
-                            class="w-full h-full flex items-center justify-center italic text-zinc-300 font-black uppercase tracking-widest text-xs">
-                            Tidak Ada Gambar
+                    
+                    <!-- Slides Wrapper -->
+                    <div class="relative w-full h-full">
+                        <!-- Slide 0 (Front) -->
+                        <div class="absolute inset-0 w-full h-full transition-all duration-500 ease-out"
+                             x-show="activeIndex === 0"
+                             x-transition:enter="transition ease-out duration-500"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-500"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95">
+                            @if ($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }} (Front)"
+                                    class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center italic text-zinc-300 font-black uppercase tracking-widest text-xs">
+                                    Tidak Ada Gambar
+                                </div>
+                            @endif
                         </div>
-                    @endif
+
+                        <!-- Slide 1 (Back) -->
+                        @if ($product->back_image_url)
+                            <div class="absolute inset-0 w-full h-full transition-all duration-500 ease-out"
+                                 x-show="activeIndex === 1"
+                                 x-transition:enter="transition ease-out duration-500"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-500"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 style="display: none;">
+                                <img src="{{ $product->back_image_url }}" alt="{{ $product->name }} (Back)"
+                                    class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                            </div>
+                        @endif
+                    </div>
 
                     {{-- Hover Badge --}}
-                    <div class="absolute top-6 left-6 sm:top-8 sm:left-8">
+                    <div class="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
                         <span
                             class="px-4 py-2 bg-zinc-950/80 backdrop-blur-md text-white text-[8px] sm:text-[9px] font-black uppercase tracking-[0.3em] rounded-full shadow-xl border border-white/10">
                             {{ $product->category->name }}
@@ -37,14 +67,52 @@
                     </div>
                     
                     @if($product->stock > 0 && $product->stock < 5)
-                    <div class="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
+                    <div class="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 z-10">
                         <span class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 text-white text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg animate-bounce">
                             <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
                             Stok Menipis!
                         </span>
                     </div>
                     @endif
+
+                    {{-- Navigation Arrows (Only if back_image_url exists) --}}
+                    @if ($product->back_image_url)
+                        <!-- Prev Button -->
+                        <button type="button" 
+                                @click="activeIndex = activeIndex === 0 ? 1 : 0"
+                                class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/85 hover:bg-white backdrop-blur-md text-zinc-950 flex items-center justify-center rounded-full shadow-lg border border-zinc-200/50 transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-115 active:scale-95 z-10">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <!-- Next Button -->
+                        <button type="button" 
+                                @click="activeIndex = activeIndex === 1 ? 0 : 1"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/85 hover:bg-white backdrop-blur-md text-zinc-950 flex items-center justify-center rounded-full shadow-lg border border-zinc-200/50 transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-115 active:scale-95 z-10">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    @endif
                 </div>
+
+                {{-- Pagination Dots & Slide Name Indicator --}}
+                @if ($product->back_image_url)
+                    <div class="flex flex-col items-center justify-center gap-2">
+                        <!-- Dots -->
+                        <div class="flex items-center gap-2.5">
+                            <button type="button" 
+                                    @click="activeIndex = 0" 
+                                    class="h-2 rounded-full transition-all duration-300"
+                                    :class="activeIndex === 0 ? 'w-8 bg-zinc-950' : 'w-2 bg-zinc-300 hover:bg-zinc-400'"></button>
+                            <button type="button" 
+                                    @click="activeIndex = 1" 
+                                    class="h-2 rounded-full transition-all duration-300"
+                                    :class="activeIndex === 1 ? 'w-8 bg-zinc-950' : 'w-2 bg-zinc-300 hover:bg-zinc-400'"></button>
+                        </div>
+                        
+                    </div>
+                @endif
             </div>
 
             {{-- Right: Product Info (Column 7-12) --}}
@@ -146,17 +214,22 @@
                 <h4 class="text-xs font-black uppercase tracking-[0.4em] mb-12 text-center italic">Mungkin Kamu Juga Suka</h4>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                     @foreach ($relatedProducts as $related)
-                        <a href="{{ route('customer.shop.show', $related) }}" class="group">
-                            <div class="aspect-[3/4] bg-zinc-50 rounded-2xl overflow-hidden mb-4 border border-zinc-50">
+                        <a href="{{ route('customer.shop.show', $related) }}" class="group block">
+                            <div class="relative aspect-[3/4] bg-zinc-100 rounded-2xl overflow-hidden mb-4 border border-zinc-100 shadow-sm group-hover:shadow-xl transition-all duration-500">
                                 @if ($related->image)
                                     <img src="{{ asset('storage/' . $related->image) }}"
-                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                        class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 @if ($related->back_image_url) group-hover:opacity-0 @endif">
                                 @endif
+                                
+                                @if ($related->back_image_url)
+                                    <img src="{{ $related->back_image_url }}"
+                                        class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-1000 group-hover:scale-110 group-hover:opacity-100">
+                                @endif
+
+                                <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                             </div>
-                            <h5 class="text-[10px] font-bold uppercase text-zinc-950 tracking-tight">{{ $related->name }}
-                            </h5>
-                            <p class="text-[10px] font-black italic text-zinc-400">IDR
-                                {{ number_format($related->price, 0, ',', '.') }}</p>
+                            <h5 class="text-[10px] font-bold uppercase text-zinc-950 group-hover:underline underline-offset-4 decoration-2 tracking-tight">{{ $related->name }}</h5>
+                            <p class="text-[10px] font-black italic text-zinc-400 mt-1">IDR {{ number_format($related->price, 0, ',', '.') }}</p>
                         </a>
                     @endforeach
                 </div>

@@ -154,14 +154,22 @@
                                         IDR {{ number_format($order->shipping_cost, 0, ',', '.') }}
                                     </td>
                                 </tr>
-                                <tr class="border-t border-zinc-950">
-                                    <td colspan="3" class="pt-4 text-right text-[10px] font-black uppercase tracking-widest text-zinc-950">
-                                        Grand Total Dana:
-                                    </td>
-                                    <td class="pt-4 text-right text-sm font-black italic text-zinc-950">
-                                        {{ $order->formatted_total }}
-                                    </td>
-                                </tr>
+                                 <tr>
+                                     <td colspan="3" class="py-2 text-right text-[9px] font-black uppercase tracking-widest text-zinc-400">
+                                         Metode Pembayaran:
+                                     </td>
+                                     <td class="py-2 text-right text-xs font-black uppercase text-zinc-950 italic">
+                                         {{ $order->payment->payment_method_label ?? '-' }}
+                                     </td>
+                                 </tr>
+                                 <tr class="border-t border-zinc-950">
+                                     <td colspan="3" class="pt-4 text-right text-[10px] font-black uppercase tracking-widest text-zinc-950">
+                                         Grand Total Dana:
+                                     </td>
+                                     <td class="pt-4 text-right text-sm font-black italic text-zinc-950">
+                                         {{ $order->formatted_total }}
+                                     </td>
+                                 </tr>
                             </tfoot>
                         </table>
                     </div>
@@ -179,11 +187,26 @@
                         <span class="w-1.5 h-3 bg-zinc-950 block"></span> Status Keuangan
                     </h2>
 
+                    <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-wider text-zinc-400 border-b border-zinc-50 pb-3">
+                        <span>Metode Pembayaran:</span>
+                        <span class="text-zinc-950 italic">{{ $order->payment->payment_method_label ?? '-' }}</span>
+                    </div>
+
                     @if ($order->payment_status === 'unpaid')
-                        <div
-                            class="p-3.5 bg-amber-50/80 border border-amber-100 rounded-xl text-xs font-bold text-amber-700 italic flex items-center gap-2">
-                            <span>⚠ Belum Ada Data Transfer</span>
-                        </div>
+                        @if ($order->payment && $order->payment->payment_method === 'cod')
+                            <div
+                                class="p-3.5 bg-zinc-100 border border-zinc-200 rounded-xl text-xs font-bold text-zinc-700 italic flex items-center gap-2">
+                                <span>✓ Bayar di Tempat (COD)</span>
+                            </div>
+                            <p class="text-[9px] font-medium leading-relaxed text-zinc-400 uppercase tracking-wider italic">
+                                * Pembayaran COD akan diterima tunai oleh kurir saat pengiriman selesai.
+                            </p>
+                        @else
+                            <div
+                                class="p-3.5 bg-amber-50/80 border border-amber-100 rounded-xl text-xs font-bold text-amber-700 italic flex items-center gap-2">
+                                <span>⚠ Belum Ada Data Transfer</span>
+                            </div>
+                        @endif
                     @elseif($order->payment_status === 'pending')
                         <div
                             class="p-3 bg-zinc-950 text-white text-center text-xs font-black uppercase tracking-wider italic rounded-xl animate-pulse">
