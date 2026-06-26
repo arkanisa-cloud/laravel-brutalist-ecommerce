@@ -17,8 +17,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Paksa semua URL asset menggunakan HTTPS di server produksi
-        if (app()->environment('production') || !app()->runningInConsole()) {
+        // Hanya paksa HTTPS jika aplikasi berjalan di environment 'production' (Railway)
+        if (app()->environment('production')) {
             URL::forceScheme('https');
         }
 

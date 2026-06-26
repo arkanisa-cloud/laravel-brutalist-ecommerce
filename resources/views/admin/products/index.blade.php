@@ -38,10 +38,14 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-4">
                                         <div
-                                            class="w-16 h-16 bg-zinc-100 rounded-lg overflow-hidden border border-gray-100 group-hover:scale-105 transition-transform">
+                                            class="w-16 h-16 bg-zinc-100 rounded-lg overflow-hidden border border-gray-100 group-hover:scale-105 transition-transform relative">
                                             @if ($product->image)
                                                 <img src="{{ asset('storage/' . $product->image) }}"
-                                                    class="w-full h-full object-cover">
+                                                    class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 {{ $product->back_image ? 'group-hover:opacity-0' : '' }}">
+                                                @if ($product->back_image)
+                                                    <img src="{{ asset('storage/' . $product->back_image) }}"
+                                                        class="w-full h-full object-cover absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                @endif
                                             @else
                                                 <div
                                                     class="w-full h-full flex items-center justify-center text-[10px] text-zinc-400 font-bold uppercase">

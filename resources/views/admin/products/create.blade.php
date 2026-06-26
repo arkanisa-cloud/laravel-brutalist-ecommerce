@@ -91,17 +91,44 @@
                         <h2
                             class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-50 pb-2">
                             Media</h2>
-                        <div class="space-y-4">
-                            <div id="image-preview"
-                                class="w-full aspect-square bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden">
-                                <span class="text-[10px] font-black text-zinc-300 uppercase tracking-widest">No Image
-                                    Selected</span>
+                        <div class="grid grid-cols-2 gap-4">
+                            {{-- POV Depan --}}
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-950 block">POV
+                                    Depan</label>
+                                <div id="front-image-preview"
+                                    class="w-full aspect-square bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden">
+                                    <span
+                                        class="text-[10px] font-black text-zinc-300 uppercase tracking-widest text-center px-2">No
+                                        Image</span>
+                                </div>
+                                <input type="file" name="image" id="front-image-input" class="hidden"
+                                    accept="image/*">
+                                <button type="button"
+                                    onclick="document.getElementById('front-image-input').click()"
+                                    class="w-full py-2.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
+                                    Upload Depan
+                                </button>
                             </div>
-                            <input type="file" name="image" id="image-input" class="hidden" accept="image/*">
-                            <button type="button" onclick="document.getElementById('image-input').click()"
-                                class="w-full py-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
-                                Upload Photo
-                            </button>
+
+                            {{-- POV Belakang --}}
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-950 block">POV
+                                    Belakang</label>
+                                <div id="back-image-preview"
+                                    class="w-full aspect-square bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden">
+                                    <span
+                                        class="text-[10px] font-black text-zinc-300 uppercase tracking-widest text-center px-2">No
+                                        Image</span>
+                                </div>
+                                <input type="file" name="back_image" id="back-image-input" class="hidden"
+                                    accept="image/*">
+                                <button type="button"
+                                    onclick="document.getElementById('back-image-input').click()"
+                                    class="w-full py-2.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
+                                    Upload Belakang
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -115,10 +142,21 @@
     </div>
 
     <script>
-        document.getElementById('image-input').onchange = evt => {
-            const [file] = evt.target.files
+        // Preview POV Depan
+        document.getElementById('front-image-input').onchange = evt => {
+            const [file] = evt.target.files;
             if (file) {
-                const preview = document.getElementById('image-preview');
+                const preview = document.getElementById('front-image-preview');
+                preview.innerHTML = `<img src="${URL.createObjectURL(file)}" class="w-full h-full object-cover">`;
+                preview.classList.remove('border-dashed');
+            }
+        }
+
+        // Preview POV Belakang
+        document.getElementById('back-image-input').onchange = evt => {
+            const [file] = evt.target.files;
+            if (file) {
+                const preview = document.getElementById('back-image-preview');
                 preview.innerHTML = `<img src="${URL.createObjectURL(file)}" class="w-full h-full object-cover">`;
                 preview.classList.remove('border-dashed');
             }

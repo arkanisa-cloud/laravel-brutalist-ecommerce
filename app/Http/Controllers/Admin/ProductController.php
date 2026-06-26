@@ -32,11 +32,15 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', 
+            'back_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
         if ($request->hasFile('image')) {
-            // Panggil fungsi konversi WebP buatan kita sendiri
             $validated['image'] = $this->convertToWebp($request->file('image'));
+        }
+
+        if ($request->hasFile('back_image')) {
+            $validated['back_image'] = $this->convertToWebp($request->file('back_image'));
         }
 
         Product::create($validated);
@@ -59,16 +63,24 @@ class ProductController extends Controller
             'weight' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', 
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120', 
+            'back_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
+        // Handle gambar depan (front POV)
         if ($request->hasFile('image')) {
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
             }
-            
-            // Panggil fungsi konversi WebP buatan kita sendiri
             $validated['image'] = $this->convertToWebp($request->file('image'));
+        }
+
+        // Handle gambar belakang (back POV)
+        if ($request->hasFile('back_image')) {
+            if ($product->back_image) {
+                Storage::disk('public')->delete($product->back_image);
+            }
+            $validated['back_image'] = $this->convertToWebp($request->file('back_image'));
         }
 
         $product->update($validated);
@@ -78,9 +90,14 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        // Hapus kedua gambar dari storage
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
+        if ($product->back_image) {
+            Storage::disk('public')->delete($product->back_image);
+        }
+
         $product->delete();
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus.');

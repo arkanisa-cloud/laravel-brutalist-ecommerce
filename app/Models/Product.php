@@ -24,6 +24,7 @@ class Product extends Model
         'stock',
         'description',
         'image',
+        'back_image',
     ];
 
     /**
@@ -85,15 +86,8 @@ class Product extends Model
      */
     public function getBackImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            if (str_contains($this->image, 'depanbaju')) {
-                $backImage = str_replace('depanbaju', 'blkgbaju', $this->image);
-                return asset('storage/' . $backImage);
-            }
-            if (str_contains($this->image, 'depancelana')) {
-                $backImage = str_replace('depancelana', 'blkgcelana', $this->image);
-                return asset('storage/' . $backImage);
-            }
+        if ($this->back_image) {
+            return asset('storage/' . $this->back_image);
         }
         return null;
     }
