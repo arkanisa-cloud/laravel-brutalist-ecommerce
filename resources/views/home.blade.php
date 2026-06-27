@@ -113,9 +113,9 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-[10px] font-black uppercase tracking-widest text-zinc-950 mb-1">Markas STS</h4>
-                            <p class="text-xs font-bold text-zinc-500 leading-relaxed">Jl. Raya Magelang, Sleman<br>Daerah
-                                Istimewa Yogyakarta 55281</p>
+                            <h4 class="text-[10px] font-black uppercase tracking-widest text-zinc-950 mb-1">Base STS</h4>
+                            <p class="text-xs font-bold text-zinc-500 leading-relaxed">Srumbung, Magelang<br>Jawa
+                                Tengah</p>
                         </div>
                     </div>
 
@@ -131,7 +131,7 @@
                         <div>
                             <h4 class="text-[10px] font-black uppercase tracking-widest text-zinc-950 mb-1">Telepon /
                                 WhatsApp</h4>
-                            <p class="text-xs font-bold text-zinc-500 leading-relaxed">+62 812 7777 0077</p>
+                            <p class="text-xs font-bold text-zinc-500 leading-relaxed">+62 857 2578 0424</p>
                         </div>
                     </div>
 
@@ -162,7 +162,7 @@
                         <div>
                             <h4 class="text-[10px] font-black uppercase tracking-widest text-zinc-950 mb-1">Jam Operasional
                             </h4>
-                            <p class="text-xs font-bold text-zinc-500 leading-relaxed">Senin - Minggu: 09.00 - 21.00 WIB
+                            <p class="text-xs font-bold text-zinc-500 leading-relaxed">Setiap Hari
                             </p>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                 <div
                     class="w-full h-64 md:h-80 bg-zinc-100 rounded-[2rem] overflow-hidden shadow-xl shadow-zinc-200/50 border border-zinc-100 relative group">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126438.2854809817!2d110.29395015!3d-7.77884175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59f1d9fa0e53%3A0x8c11e64d7c0bbab!2sSleman%2C%20Sleman%20Regency%2C%20Special%20Region%20of%20Yogyakarta!5e0!3m2!1sen!2sid!4v1680000000000!5m2!1sen!2sid"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.218573215286!2d110.31682395!3d-7.59473265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a895b6a7a13ad%3A0x4027a7658514580!2sSrumbung%2C%20Magelang%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
                         class="w-full h-full border-0 grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
                         allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>

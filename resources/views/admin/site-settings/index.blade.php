@@ -30,8 +30,8 @@
                     </div>
                     <div>
                         <h2 class="text-lg font-black uppercase tracking-tight text-zinc-950">Logo Website</h2>
-                        <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Ganti logo yang tampil di
-                            navbar halaman customer</p>
+                        <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Ganti logo Streetwear to
+                            Santri!</p>
                     </div>
                 </div>
 

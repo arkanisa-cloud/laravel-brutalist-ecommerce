@@ -37,8 +37,8 @@ return [
 
         'rajaongkir' => [
         'key' => env('RAJAONGKIR_API_KEY'),
-        'origin_city_id' => env('RAJAONGKIR_ORIGIN_CITY_ID', 19),
-        'origin_district_id' => env('RAJAONGKIR_ORIGIN_DISTRICT_ID', 261),
+        'origin_city_id' => env('RAJAONGKIR_ORIGIN_CITY_ID', 12),
+        'origin_district_id' => env('RAJAONGKIR_ORIGIN_DISTRICT_ID', 383),
     ],
 
     'google' => [
