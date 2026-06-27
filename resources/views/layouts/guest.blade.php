@@ -23,7 +23,8 @@
             <a href="/" class="text-4xl font-black italic tracking-tighter uppercase group">
                 STS<span class="text-zinc-300 group-hover:text-zinc-950 transition-colors">.</span>
             </a>
-            <p class="text-[9px] font-black uppercase tracking-[0.5em] text-zinc-400 mt-2">Seventy Seven Worldwide</p>
+            <p class="text-[9px] font-black uppercase tracking-[0.5em] text-zinc-400 mt-2">Streetwear to Santri
+                Worldwide</p>
         </div>
 
         {{-- Auth Card --}}

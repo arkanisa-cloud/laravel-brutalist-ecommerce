@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- High-End Refened Hero Section - LVP Style (Pure Campaign Visual) --}}
-    <section id="home" class="relative h-[200vh] bg-zinc-950 select-none">
+    {{-- Hero Section: Rasio 4:5 di Mobile, 200vh di Desktop --}}
+    <section id="home"
+        class="relative w-full aspect-[4/5] md:aspect-auto md:h-[200vh] bg-zinc-950 select-none overflow-hidden">
 
-        {{-- Background Image Container - Mengikuti Scroll Secara Alami --}}
-        <div class="absolute inset-0 z-0 pointer-events-none w-full h-full overflow-hidden">
-            {{-- h-full membuat gambar memanjang penuh mengikuti tinggi parent (200vh) --}}
+        {{-- Background Image Container --}}
+        <div class="absolute inset-0 z-0 pointer-events-none w-full h-full flex items-center justify-center">
+
+            {{-- Gambar akan menyesuaikan container: 
+                 - Di mobile (4:5): crop sangat minimal jika foto asli sudah di-crop portrait.
+                 - Di desktop (200vh): sisi kiri-kanan akan terkena crop karena memaksa menutupi area vertikal 200vh. --}}
             <img src="{{ !empty($heroImage) ? asset('storage/' . $heroImage) : asset('images/hero.png') }}"
-                class="w-full h-full object-cover object-center filter brightness-[0.75] contrast-105 animate-fade-in-slow animate-zoom-out">
-
-            {{-- Dark Overlay Gradation untuk transisi mulus ke section produk --}}
-            <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/20 via-transparent to-zinc-950 z-10"></div>
-        </div>
+                class="w-full h-full object-cover object-center animate-fade-in-slow animate-zoom-out">
 
     </section>
 

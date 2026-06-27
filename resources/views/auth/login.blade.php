@@ -22,7 +22,7 @@
         {{-- Password --}}
         <div>
             <div class="flex justify-between items-center mb-2">
-                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-400">Security Key</label>
+                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-400">Password</label>
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}"
                         class="text-[9px] font-black uppercase tracking-widest text-zinc-300 hover:text-zinc-950 transition">Forgot?</a>
