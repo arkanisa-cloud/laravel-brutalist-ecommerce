@@ -109,7 +109,7 @@ class ProductController extends Controller
     private function convertToWebp($file)
     {
         // 0. Tingkatkan batas memori sementara jadi 512MB khusus untuk proses ini
-        // ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '512M');
 
         $sourcePath = $file->getPathname();
         $mime = $file->getMimeType();
