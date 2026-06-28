@@ -29,10 +29,10 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'weight' => 'required|integer|min:0',
-            'stock' => 'required|integer|min:0',
+            'stock' => 'nullable|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', 
-            'back_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120', 
+            'back_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
         if ($request->hasFile('image')) {
@@ -61,7 +61,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'weight' => 'required|integer|min:0',
-            'stock' => 'required|integer|min:0',
+            'stock' => 'nullable|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120', 
             'back_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
@@ -70,7 +70,7 @@ class ProductController extends Controller
         // Handle gambar depan (front POV)
         if ($request->hasFile('image')) {
             if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+                Storage::delete($product->image);
             }
             $validated['image'] = $this->convertToWebp($request->file('image'));
         }
@@ -78,7 +78,7 @@ class ProductController extends Controller
         // Handle gambar belakang (back POV)
         if ($request->hasFile('back_image')) {
             if ($product->back_image) {
-                Storage::disk('public')->delete($product->back_image);
+                Storage::delete($product->back_image);
             }
             $validated['back_image'] = $this->convertToWebp($request->file('back_image'));
         }
@@ -92,10 +92,10 @@ class ProductController extends Controller
     {
         // Hapus kedua gambar dari storage
         if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+            Storage::delete($product->image);
         }
         if ($product->back_image) {
-            Storage::disk('public')->delete($product->back_image);
+            Storage::delete($product->back_image);
         }
 
         $product->delete();
@@ -108,6 +108,9 @@ class ProductController extends Controller
      */
     private function convertToWebp($file)
     {
+        // 0. Tingkatkan batas memori sementara jadi 512MB khusus untuk proses ini
+        // ini_set('memory_limit', '512M');
+
         $sourcePath = $file->getPathname();
         $mime = $file->getMimeType();
         $sourceImage = null;
@@ -135,7 +138,7 @@ class ProductController extends Controller
 
             // 4. Simpan menggunakan Storage Laravel agar konsisten dengan ekosistem aplikasi
             $filename = 'products/' . uniqid('sts_') . '.webp';
-            Storage::disk('public')->put($filename, $imageContent);
+            Storage::put($filename, $imageContent);
 
             return $filename;
         }

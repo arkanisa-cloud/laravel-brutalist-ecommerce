@@ -40,10 +40,10 @@
                                         <div
                                             class="w-16 h-16 bg-zinc-100 rounded-lg overflow-hidden border border-gray-100 group-hover:scale-105 transition-transform relative">
                                             @if ($product->image)
-                                                <img src="{{ asset('storage/' . $product->image) }}"
+                                                <img src="{{ Storage::url($product->image) }}"
                                                     class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 {{ $product->back_image ? 'group-hover:opacity-0' : '' }}">
                                                 @if ($product->back_image)
-                                                    <img src="{{ asset('storage/' . $product->back_image) }}"
+                                                    <img src="{{ Storage::url($product->back_image) }}"
                                                         class="w-full h-full object-cover absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                                 @endif
                                             @else

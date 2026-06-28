@@ -36,8 +36,7 @@
             {{-- Tengah: Logo --}}
             <div class="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
                 @if (!empty($siteLogo))
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo"
-                        class="h-11 md:h-14 w-auto object-contain">
+                    <img src="{{ Storage::url($siteLogo) }}" alt="Logo" class="h-11 md:h-14 w-auto object-contain">
                 @else
                     <span class="text-2xl font-black italic tracking-tighter uppercase">STS<span
                             class="text-zinc-300">.</span></span>
@@ -78,7 +77,7 @@
                         <button @click="profileMenuOpen = !profileMenuOpen" @click.away="profileMenuOpen = false"
                             class="flex items-center gap-2 {{ auth()->user()->avatar ? 'p-1' : 'p-2.5' }} border-2 border-zinc-100 rounded-full hover:border-zinc-950 transition-all overflow-hidden">
                             @if (auth()->user()->avatar)
-                                <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                                <img src="{{ Storage::url(auth()->user()->avatar) }}"
                                     class="w-7 h-7 rounded-full object-cover">
                             @else
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

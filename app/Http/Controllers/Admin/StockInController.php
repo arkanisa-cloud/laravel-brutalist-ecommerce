@@ -107,16 +107,6 @@ class StockInController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     * Tampilkan detail stok masuk
-     */
-    public function show(StockIn $stockIn)
-    {
-        $stockIn->load(['product', 'supplier']);
-        return view('admin.stock-ins.show', compact('stockIn'));
-    }
-
-    /**
      * Remove the specified resource from storage.
      * Hapus data stok masuk (opsional, hati-hati!)
      * WARNING: Tidak diimplementasikan untuk safety

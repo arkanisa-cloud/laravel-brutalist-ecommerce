@@ -74,71 +74,54 @@
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
-                        <h2
-                            class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-50 pb-2">
-                            Inventory</h2>
-                        <div>
-                            <label class="text-[10px] font-black uppercase tracking-widest text-zinc-950 mb-2 block">Initial
-                                Stock</label>
-                            <input type="number" name="stock" value="{{ old('stock', 0) }}"
-                                class="w-full bg-zinc-50 border-none rounded-xl p-4 text-sm font-bold focus:ring-2 focus:ring-zinc-950 text-center">
+                <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+                    <h2
+                        class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-50 pb-2">
+                        Media</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        {{-- POV Depan --}}
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-zinc-950 block">POV
+                                Depan</label>
+                            <div id="front-image-preview"
+                                class="w-full aspect-square bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden">
+                                <span
+                                    class="text-[10px] font-black text-zinc-300 uppercase tracking-widest text-center px-2">No
+                                    Image</span>
+                            </div>
+                            <input type="file" name="image" id="front-image-input" class="hidden" accept="image/*">
+                            <button type="button" onclick="document.getElementById('front-image-input').click()"
+                                class="w-full py-2.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
+                                Upload Depan
+                            </button>
+                        </div>
+
+                        {{-- POV Belakang --}}
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-zinc-950 block">POV
+                                Belakang</label>
+                            <div id="back-image-preview"
+                                class="w-full aspect-square bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden">
+                                <span
+                                    class="text-[10px] font-black text-zinc-300 uppercase tracking-widest text-center px-2">No
+                                    Image</span>
+                            </div>
+                            <input type="file" name="back_image" id="back-image-input" class="hidden" accept="image/*">
+                            <button type="button" onclick="document.getElementById('back-image-input').click()"
+                                class="w-full py-2.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
+                                Upload Belakang
+                            </button>
                         </div>
                     </div>
-
-                    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
-                        <h2
-                            class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-50 pb-2">
-                            Media</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            {{-- POV Depan --}}
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-950 block">POV
-                                    Depan</label>
-                                <div id="front-image-preview"
-                                    class="w-full aspect-square bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden">
-                                    <span
-                                        class="text-[10px] font-black text-zinc-300 uppercase tracking-widest text-center px-2">No
-                                        Image</span>
-                                </div>
-                                <input type="file" name="image" id="front-image-input" class="hidden"
-                                    accept="image/*">
-                                <button type="button"
-                                    onclick="document.getElementById('front-image-input').click()"
-                                    class="w-full py-2.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
-                                    Upload Depan
-                                </button>
-                            </div>
-
-                            {{-- POV Belakang --}}
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-950 block">POV
-                                    Belakang</label>
-                                <div id="back-image-preview"
-                                    class="w-full aspect-square bg-zinc-50 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden">
-                                    <span
-                                        class="text-[10px] font-black text-zinc-300 uppercase tracking-widest text-center px-2">No
-                                        Image</span>
-                                </div>
-                                <input type="file" name="back_image" id="back-image-input" class="hidden"
-                                    accept="image/*">
-                                <button type="button"
-                                    onclick="document.getElementById('back-image-input').click()"
-                                    class="w-full py-2.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
-                                    Upload Belakang
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full py-4 bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-black uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-zinc-950/20 transition-all">
-                        Publish Item
-                    </button>
                 </div>
+
+                <button type="submit"
+                    class="w-full py-4 bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-black uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-zinc-950/20 transition-all">
+                    Publish Item
+                </button>
             </div>
-        </form>
+    </div>
+    </form>
     </div>
 
     <script>

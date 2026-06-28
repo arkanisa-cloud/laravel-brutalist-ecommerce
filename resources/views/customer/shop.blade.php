@@ -98,12 +98,12 @@
                         {{-- Gambar Produk dengan Hover Swap --}}
                         @if ($product->image)
                             {{-- Front Image --}}
-                            <img src="{{ asset('storage/' . $product->image) }}"
+                            <img src="{{ Storage::url($product->image) }}"
                                 class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 @if ($product->back_image_url) group-hover:opacity-0 @endif {{ $product->stock == 0 ? 'opacity-50 grayscale-[20%]' : '' }}">
 
                             {{-- Back Image (Optional Hover Swap) --}}
-                            @if ($product->back_image_url)
-                                <img src="{{ $product->back_image_url }}"
+                            @if ($product->back_image)
+                                <img src="{{ Storage::url($product->back_image) }}"
                                     class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100 {{ $product->stock == 0 ? 'opacity-50 grayscale-[20%]' : '' }}">
                             @endif
                         @else

@@ -42,7 +42,8 @@
                             <div
                                 class="w-24 h-24 bg-gradient-to-tr from-zinc-800 to-zinc-700 rounded-3xl flex items-center justify-center border border-white/10 overflow-hidden shadow-inner group-hover:rotate-3 transition-transform duration-500">
                                 @if ($user->avatar)
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" class="w-full h-full object-cover">
+                                    <img src="{{ Storage::url('storage/' . $user->avatar) }}"
+                                        class="w-full h-full object-cover">
                                 @else
                                     <span class="text-3xl font-black uppercase italic tracking-tighter text-white/20">
                                         {{ $user->name ? strtoupper(substr($user->name, 0, 2)) : 'ST' }}
@@ -120,7 +121,7 @@
                     <div
                         class="w-14 h-14 bg-zinc-950 rounded-full flex items-center justify-center border border-zinc-200 overflow-hidden flex-shrink-0">
                         @if ($user->avatar)
-                            <img src="{{ asset('storage/' . $user->avatar) }}" class="w-full h-full object-cover">
+                            <img src="{{ Storage::url('storage/' . $user->avatar) }}" class="w-full h-full object-cover">
                         @else
                             <span class="text-xl font-black uppercase italic tracking-tighter text-white">
                                 {{ $user->name ? strtoupper(substr($user->name, 0, 2)) : 'ST' }}
@@ -174,7 +175,8 @@
                         <h2 class="text-xs font-black uppercase tracking-[0.2em] text-zinc-950 flex items-center gap-3">
                             <span class="w-1.5 h-3 bg-zinc-950 block"></span> Form Pembaruan Data
                         </h2>
-                        <button type="button" @click="isEditing = false; avatarPreview = null; if($refs.avatarInput) $refs.avatarInput.value = ''"
+                        <button type="button"
+                            @click="isEditing = false; avatarPreview = null; if($refs.avatarInput) $refs.avatarInput.value = ''"
                             class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-colors">
                             Batal [✕]
                         </button>
@@ -192,7 +194,7 @@
                             <div class="flex items-center gap-6">
                                 <div class="relative group">
                                     @if ($user->avatar)
-                                        <img src="{{ asset('storage/' . $user->avatar) }}" x-show="!avatarPreview"
+                                        <img src="{{ Storage::url('storage/' . $user->avatar) }}" x-show="!avatarPreview"
                                             class="w-20 h-20 rounded-2xl object-cover border-2 border-zinc-100 shadow-md">
                                     @else
                                         <div x-show="!avatarPreview"
@@ -280,7 +282,8 @@
 
                         {{-- Controls --}}
                         <div class="pt-6 border-t border-zinc-100 flex justify-end gap-3">
-                            <button type="button" @click="isEditing = false; avatarPreview = null; if($refs.avatarInput) $refs.avatarInput.value = ''"
+                            <button type="button"
+                                @click="isEditing = false; avatarPreview = null; if($refs.avatarInput) $refs.avatarInput.value = ''"
                                 class="px-5 py-3 border border-zinc-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:bg-zinc-50 transition-all">
                                 Batal
                             </button>

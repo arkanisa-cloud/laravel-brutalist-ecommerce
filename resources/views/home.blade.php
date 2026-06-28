@@ -11,9 +11,8 @@
             {{-- Gambar akan menyesuaikan container: 
                  - Di mobile (4:5): crop sangat minimal jika foto asli sudah di-crop portrait.
                  - Di desktop (200vh): sisi kiri-kanan akan terkena crop karena memaksa menutupi area vertikal 200vh. --}}
-            <img src="{{ !empty($heroImage) ? asset('storage/' . $heroImage) : asset('images/hero.png') }}"
+            <img src="{{ !empty($heroImage) ? Storage::url($heroImage) : Storage::url('images/hero.png') }}"
                 class="w-full h-full object-cover object-center animate-fade-in-slow animate-zoom-out">
-
     </section>
 
     {{-- Product Section --}}
@@ -31,12 +30,12 @@
                     <div
                         class="relative aspect-[3/4] bg-zinc-100 rounded-2xl overflow-hidden mb-6 shadow-sm group-hover:shadow-xl transition-all duration-500">
                         {{-- Front Image --}}
-                        <img src="{{ asset('storage/' . $product->image) }}"
+                        <img src="{{ Storage::url($product->image) }}"
                             class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 @if ($product->back_image_url) group-hover:opacity-0 @endif">
 
                         {{-- Back Image (Optional Hover Swap) --}}
-                        @if ($product->back_image_url)
-                            <img src="{{ $product->back_image_url }}"
+                        @if ($product->back_image)
+                            <img src="{{ Storage::url($product->back_image) }}"
                                 class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-1000 group-hover:scale-110 group-hover:opacity-100">
                         @endif
 

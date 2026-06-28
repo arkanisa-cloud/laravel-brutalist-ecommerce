@@ -36,8 +36,7 @@
                 :class="(!isHome || isScrolled || mobileMenuOpen) ? 'text-zinc-950' : 'text-white'"
                 class="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:ml-4 transition-colors duration-500 hover:opacity-70">
                 @if (!empty($siteLogo))
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo"
-                        class="h-11 md:h-14 w-auto object-contain">
+                    <img src="{{ Storage::url($siteLogo) }}" alt="Logo" class="h-11 md:h-14 w-auto object-contain">
                 @else
                     <span class="text-2xl font-black italic tracking-tighter uppercase">STS<span
                             :class="(!isHome || isScrolled || mobileMenuOpen) ? 'text-zinc-300' : 'text-zinc-400'">.</span></span>
@@ -90,8 +89,7 @@
                         'border-white/10 hover:border-white text-white'"
                         class="flex items-center gap-2 {{ auth()->user()->avatar ? 'p-1' : 'p-2.5' }} border-2 rounded-full transition-all duration-300 overflow-hidden">
                         @if (auth()->user()->avatar)
-                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
-                                class="w-7 h-7 rounded-full object-cover">
+                            <img src="{{ Storage::url(auth()->user()->avatar) }}" class="w-7 h-7 rounded-full object-cover">
                         @else
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

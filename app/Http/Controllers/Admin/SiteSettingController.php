@@ -34,11 +34,11 @@ class SiteSettingController extends Controller
         if ($request->hasFile('site_logo')) {
             // Delete old logo if exists
             $oldLogo = SiteSetting::get('site_logo');
-            if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
-                Storage::disk('public')->delete($oldLogo);
+            if ($oldLogo && Storage::exists($oldLogo)) {
+                Storage::delete($oldLogo);
             }
 
-            $logoPath = $request->file('site_logo')->store('site', 'public');
+            $logoPath = $request->file('site_logo')->store('site');
             SiteSetting::set('site_logo', $logoPath);
         }
 
@@ -46,11 +46,11 @@ class SiteSettingController extends Controller
         if ($request->hasFile('hero_image')) {
             // Delete old hero image if exists
             $oldHero = SiteSetting::get('hero_image');
-            if ($oldHero && Storage::disk('public')->exists($oldHero)) {
-                Storage::disk('public')->delete($oldHero);
+            if ($oldHero && Storage::exists($oldHero)) {
+                Storage::delete($oldHero);
             }
 
-            $heroPath = $request->file('hero_image')->store('site', 'public');
+            $heroPath = $request->file('hero_image')->store('site');
             SiteSetting::set('hero_image', $heroPath);
         }
 
