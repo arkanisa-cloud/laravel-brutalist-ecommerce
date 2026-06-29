@@ -51,7 +51,7 @@
                             <div
                                 class="w-24 h-24 bg-gradient-to-tr from-zinc-800 to-zinc-700 rounded-3xl flex items-center justify-center border border-white/10 overflow-hidden shadow-inner group-hover:rotate-3 transition-transform duration-500">
                                 @if (auth()->user()->avatar)
-                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                                    <img src="{{ Storage::url(auth()->user()->avatar) }}"
                                         class="w-full h-full object-cover">
                                 @else
                                     <span class="text-3xl font-black uppercase italic tracking-tighter text-white/20">

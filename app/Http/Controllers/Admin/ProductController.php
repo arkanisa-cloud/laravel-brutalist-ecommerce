@@ -144,6 +144,6 @@ class ProductController extends Controller
         }
 
         // Fallback: Jika PHP gagal mengonversi (misal karena file rusak), jalankan metode bawaan Laravel
-        return $file->store('products', 'public');
+        return $file->store('products');
     }
 }

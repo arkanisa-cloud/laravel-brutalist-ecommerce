@@ -122,7 +122,7 @@
                                             @if ($item->product->image)
                                                 <div
                                                     class="w-10 h-14 bg-zinc-100 rounded-lg overflow-hidden flex-shrink-0 border border-zinc-100">
-                                                    <img src="{{ asset('storage/' . $item->product->image) }}"
+                                                    <img src="{{ Storage::url($item->product->image) }}"
                                                         alt="{{ $item->product->name }}" class="w-full h-full object-cover">
                                                 </div>
                                             @endif

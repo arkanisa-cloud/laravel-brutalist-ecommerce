@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Model Product
@@ -76,7 +77,7 @@ class Product extends Model
     public function getImageUrlAttribute(): string
     {
         if ($this->image) {
-            return asset('storage/' . $this->image);
+            return Storage::url($this->image);
         }
         return asset('images/no-image.png'); // Gambar default
     }
@@ -87,7 +88,7 @@ class Product extends Model
     public function getBackImageUrlAttribute(): ?string
     {
         if ($this->back_image) {
-            return asset('storage/' . $this->back_image);
+            return Storage::url($this->back_image);
         }
         return null;
     }

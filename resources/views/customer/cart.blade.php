@@ -10,9 +10,11 @@
     <div class="max-w-7xl mx-auto px-6 py-12">
         {{-- Header Page --}}
         <div class="mb-12 border-b border-zinc-100 pb-8">
-            <h1 class="text-4xl font-black italic tracking-tighter uppercase">Vault / <span class="text-zinc-400">Keranjang</span>
+            <h1 class="text-4xl font-black italic tracking-tighter uppercase">Vault / <span
+                    class="text-zinc-400">Keranjang</span>
             </h1>
-            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em] mt-2">Tinjau dan kelola barang belanjaan kamu.</p>
+            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em] mt-2">Tinjau dan kelola barang belanjaan
+                kamu.</p>
         </div>
 
         @if ($cart->cartItems->isEmpty())
@@ -24,7 +26,8 @@
                             d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-black italic uppercase tracking-tight text-zinc-950 mb-4">Keranjang Kamu Kosong</h3>
+                <h3 class="text-2xl font-black italic uppercase tracking-tight text-zinc-950 mb-4">Keranjang Kamu Kosong
+                </h3>
                 <p class="text-zinc-400 text-sm mb-8">Mulai belanja untuk menambahkan barang ke keranjang.</p>
                 <a href="{{ route('customer.shop.index') }}"
                     class="inline-flex items-center gap-2 px-8 py-4 bg-zinc-950 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white hover:text-zinc-950 border border-zinc-950 transition-all duration-300">
@@ -37,7 +40,7 @@
             </div>
         @else
             {{-- Cart Items --}}
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12" x-data="{ 
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12" x-data="{
                 selectedIds: @js($cart->cartItems->where('is_selected', true)->pluck('id')->values()),
                 allIds: @js($cart->cartItems->pluck('id')->values()),
                 get allSelected() { return this.selectedIds.length === this.allIds.length && this.allIds.length > 0 },
@@ -64,16 +67,22 @@
                                     <div class="relative flex items-center">
                                         <input type="checkbox" @change="toggleAll()" :checked="allSelected"
                                             class="w-6 h-6 rounded-lg border-2 border-zinc-200 text-zinc-950 focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer checked:bg-zinc-950 checked:border-zinc-950">
-                                        <svg class="absolute w-4 h-4 text-white pointer-events-none opacity-0 transition-opacity" :class="{ 'opacity-100': allSelected }" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="left: 4px;">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
+                                        <svg class="absolute w-4 h-4 text-white pointer-events-none opacity-0 transition-opacity"
+                                            :class="{ 'opacity-100': allSelected }" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" style="left: 4px;">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                                d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </div>
-                                    <span class="text-xs font-black uppercase tracking-widest text-zinc-950 group-hover:text-zinc-600 transition-colors">Pilih Semua</span>
+                                    <span
+                                        class="text-xs font-black uppercase tracking-widest text-zinc-950 group-hover:text-zinc-600 transition-colors">Pilih
+                                        Semua</span>
                                 </label>
                             </div>
-                            
+
                             <div class="flex items-center gap-3">
-                                <form x-ref="bulkActionForm" method="POST" action="{{ route('customer.cart.bulk-action') }}">
+                                <form x-ref="bulkActionForm" method="POST"
+                                    action="{{ route('customer.cart.bulk-action') }}">
                                     @csrf
                                     <input type="hidden" name="action" x-ref="actionInput" value="delete">
                                     <template x-for="id in selectedIds" :key="id">
@@ -99,7 +108,8 @@
                                         Hapus Terpilih (<span x-text="selectedIds.length"></span>)
                                     </button>
                                 </form>
-                                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-400 bg-zinc-50 px-4 py-2 rounded-full border border-zinc-100">
+                                <span
+                                    class="text-[10px] font-black uppercase tracking-widest text-zinc-400 bg-zinc-50 px-4 py-2 rounded-full border border-zinc-100">
                                     {{ $cart->count_all }} Barang
                                 </span>
                             </div>
@@ -109,31 +119,37 @@
                             @foreach ($cart->cartItems as $item)
                                 <div class="flex items-center gap-4 group">
                                     {{-- Checkbox --}}
-                                    <form action="{{ route('customer.cart.update', $item) }}" method="POST" x-ref="form_{{ $item->id }}">
+                                    <form action="{{ route('customer.cart.update', $item) }}" method="POST"
+                                        x-ref="form_{{ $item->id }}">
                                         @csrf
                                         @method('PUT')
                                         <div class="relative flex items-center">
                                             <input type="hidden" name="is_selected" value="0">
-                                            <input type="checkbox" name="is_selected" value="1" 
-                                                {{ $item->is_selected ? 'checked' : '' }}
-                                                @change="$el.form.submit()"
+                                            <input type="checkbox" name="is_selected" value="1"
+                                                {{ $item->is_selected ? 'checked' : '' }} @change="$el.form.submit()"
                                                 class="w-6 h-6 rounded-lg border-2 border-zinc-100 text-zinc-950 focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer checked:bg-zinc-950 checked:border-zinc-950">
-                                            @if($item->is_selected)
-                                            <svg class="absolute w-4 h-4 text-white pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="left: 4px;">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
-                                            </svg>
+                                            @if ($item->is_selected)
+                                                <svg class="absolute w-4 h-4 text-white pointer-events-none" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24" style="left: 4px;">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                                        d="M5 13l4 4L19 7"></path>
+                                                </svg>
                                             @endif
                                         </div>
                                     </form>
 
-                                    <div class="flex-1 flex gap-6 p-6 bg-zinc-50 rounded-[2rem] border border-transparent transition-all duration-300 {{ $item->is_selected ? 'bg-white border-zinc-100 shadow-sm' : 'opacity-60 grayscale-[0.5]' }}">
+                                    <div
+                                        class="flex-1 flex gap-6 p-6 bg-zinc-50 rounded-[2rem] border border-transparent transition-all duration-300 {{ $item->is_selected ? 'bg-white border-zinc-100 shadow-sm' : 'opacity-60 grayscale-[0.5]' }}">
                                         {{-- Product Image --}}
-                                        <div class="w-24 h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200/50">
+                                        <div
+                                            class="w-24 h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200/50">
                                             @if ($item->product->image)
-                                                <img src="{{ asset('storage/' . $item->product->image) }}"
-                                                    alt="{{ $item->product->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                                <img src="{{ Storage::url($item->product->image) }}"
+                                                    alt="{{ $item->product->name }}"
+                                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                             @else
-                                                <div class="w-full h-full flex items-center justify-center text-[8px] font-black uppercase text-zinc-300 italic">
+                                                <div
+                                                    class="w-full h-full flex items-center justify-center text-[8px] font-black uppercase text-zinc-300 italic">
                                                     Tanpa Gambar
                                                 </div>
                                             @endif
@@ -143,9 +159,11 @@
                                         <div class="flex-1 min-w-0">
                                             <div class="flex justify-between items-start mb-2">
                                                 <div>
-                                                    <h3 class="text-sm font-black uppercase tracking-tight text-zinc-950 mb-1">
+                                                    <h3
+                                                        class="text-sm font-black uppercase tracking-tight text-zinc-950 mb-1">
                                                         {{ $item->product->name }}</h3>
-                                                    <p class="text-[9px] font-black uppercase tracking-widest text-zinc-400">
+                                                    <p
+                                                        class="text-[9px] font-black uppercase tracking-widest text-zinc-400">
                                                         {{ $item->product->category->name }}</p>
                                                 </div>
                                                 <form action="{{ route('customer.cart.destroy', $item) }}" method="POST"
@@ -183,7 +201,8 @@
                                             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                                                 <div class="flex items-center gap-4">
                                                     {{-- Quantity --}}
-                                                    <form action="{{ route('customer.cart.update', $item) }}" method="POST"
+                                                    <form action="{{ route('customer.cart.update', $item) }}"
+                                                        method="POST"
                                                         class="flex items-center bg-white rounded-xl border border-zinc-100 p-1 shadow-sm">
                                                         @csrf
                                                         @method('PUT')
@@ -208,14 +227,17 @@
                                                             </svg>
                                                         </button>
                                                     </form>
-                                                    <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Stok:
+                                                    <span
+                                                        class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Stok:
                                                         {{ $item->product->stock }}</span>
                                                 </div>
 
                                                 <div class="text-right">
                                                     <p class="text-sm font-black italic text-zinc-950">IDR
                                                         {{ number_format($item->product->price, 0, ',', '.') }}</p>
-                                                    <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Subtotal: IDR
+                                                    <p
+                                                        class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                                                        Subtotal: IDR
                                                         {{ number_format($item->subtotal, 0, ',', '.') }}</p>
                                                 </div>
                                             </div>
@@ -249,7 +271,8 @@
                                     Kosongkan Keranjang
                                 </button>
                             </form>
-                            <p class="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 italic">STS VAULT — 2026</p>
+                            <p class="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 italic">STS VAULT —
+                                2026</p>
                         </div>
                     </div>
                 </div>
@@ -257,22 +280,28 @@
                 {{-- Order Summary --}}
                 <div class="lg:col-span-4 space-y-6">
                     <div class="bg-zinc-950 rounded-[2.5rem] p-8 text-white shadow-2xl sticky top-24">
-                        <h3 class="text-xl font-black uppercase tracking-tight italic mb-8 border-b border-white/10 pb-4">Ringkasan Pesanan</h3>
+                        <h3 class="text-xl font-black uppercase tracking-tight italic mb-8 border-b border-white/10 pb-4">
+                            Ringkasan Pesanan</h3>
 
                         <div class="space-y-6 mb-10">
                             <div class="flex justify-between items-center">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Barang Terpilih</span>
-                                <span class="text-sm font-black italic"><span x-text="selectedIds.length"></span> Item</span>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Barang
+                                    Terpilih</span>
+                                <span class="text-sm font-black italic"><span x-text="selectedIds.length"></span>
+                                    Item</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span
                                     class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Subtotal</span>
-                                <span class="text-sm font-black italic">IDR {{ number_format($cart->total, 0, ',', '.') }}</span>
+                                <span class="text-sm font-black italic">IDR
+                                    {{ number_format($cart->total, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Ongkos Kirim</span>
-                                    <span class="text-[8px] font-black uppercase tracking-widest text-zinc-600">Dihitung otomatis</span>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Ongkos
+                                        Kirim</span>
+                                    <span class="text-[8px] font-black uppercase tracking-widest text-zinc-600">Dihitung
+                                        otomatis</span>
                                 </div>
                                 <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden mt-2">
                                     <div class="bg-zinc-700 h-full w-1/3"></div>
@@ -283,7 +312,9 @@
                         <div class="border-t border-white/10 pt-8 mb-10">
                             <div class="flex justify-between items-end">
                                 <div>
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500 block mb-1">Total Pembayaran</span>
+                                    <span
+                                        class="text-[10px] font-black uppercase tracking-widest text-zinc-500 block mb-1">Total
+                                        Pembayaran</span>
                                     <span class="text-2xl font-black italic tracking-tighter">IDR
                                         {{ number_format($cart->total, 0, ',', '.') }}</span>
                                 </div>
@@ -305,7 +336,9 @@
                     {{-- Continue Shopping --}}
                     <a href="{{ route('customer.shop.index') }}"
                         class="group block w-full text-center py-5 bg-white border border-zinc-100 rounded-[2rem] hover:bg-zinc-50 transition-all duration-300 shadow-sm">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950 group-hover:tracking-[0.3em] transition-all">← Lanjut Belanja</span>
+                        <span
+                            class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950 group-hover:tracking-[0.3em] transition-all">←
+                            Lanjut Belanja</span>
                     </a>
                 </div>
             </div>

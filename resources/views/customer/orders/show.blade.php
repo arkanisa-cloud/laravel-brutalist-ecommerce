@@ -73,7 +73,7 @@
                                             @if ($item->product->image)
                                                 <div
                                                     class="w-12 h-16 bg-zinc-50 rounded-lg overflow-hidden flex-shrink-0 border border-zinc-100">
-                                                    <img src="{{ asset('storage/' . $item->product->image) }}"
+                                                    <img src="{{ Storage::url($item->product->image) }}"
                                                         alt="{{ $item->product->name }}" class="w-full h-full object-cover">
                                                 </div>
                                             @endif
@@ -136,7 +136,7 @@
                                 @if ($item->product->image)
                                     <div
                                         class="w-14 h-20 bg-zinc-50 rounded-lg overflow-hidden flex-shrink-0 border border-zinc-100">
-                                        <img src="{{ asset('storage/' . $item->product->image) }}"
+                                        <img src="{{ Storage::url($item->product->image) }}"
                                             alt="{{ $item->product->name }}" class="w-full h-full object-cover">
                                     </div>
                                 @endif

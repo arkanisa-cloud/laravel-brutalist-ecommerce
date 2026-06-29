@@ -309,7 +309,7 @@
                         <div
                             class="w-10 h-10 bg-zinc-950 rounded-xl flex items-center justify-center border border-zinc-800 overflow-hidden shadow-lg">
                             @if (Auth::user()->avatar)
-                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                <img src="{{ Storage::url(Auth::user()->avatar) }}"
                                     class="w-full h-full object-cover">
                             @else
                                 <span

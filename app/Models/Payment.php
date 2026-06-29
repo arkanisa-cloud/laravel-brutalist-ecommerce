@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Model Payment
@@ -72,7 +73,7 @@ class Payment extends Model
     public function getProofUrlAttribute(): string
     {
         if ($this->proof) {
-            return asset('storage/' . $this->proof);
+            return Storage::url($this->proof);
         }
         return '';
     }

@@ -42,7 +42,7 @@
                             <div
                                 class="w-24 h-24 bg-gradient-to-tr from-zinc-800 to-zinc-700 rounded-3xl flex items-center justify-center border border-white/10 overflow-hidden shadow-inner group-hover:rotate-3 transition-transform duration-500">
                                 @if ($user->avatar)
-                                    <img src="{{ Storage::url('storage/' . $user->avatar) }}"
+                                    <img src="{{ Storage::url($user->avatar) }}"
                                         class="w-full h-full object-cover">
                                 @else
                                     <span class="text-3xl font-black uppercase italic tracking-tighter text-white/20">
@@ -121,7 +121,7 @@
                     <div
                         class="w-14 h-14 bg-zinc-950 rounded-full flex items-center justify-center border border-zinc-200 overflow-hidden flex-shrink-0">
                         @if ($user->avatar)
-                            <img src="{{ Storage::url('storage/' . $user->avatar) }}" class="w-full h-full object-cover">
+                            <img src="{{ Storage::url($user->avatar) }}" class="w-full h-full object-cover">
                         @else
                             <span class="text-xl font-black uppercase italic tracking-tighter text-white">
                                 {{ $user->name ? strtoupper(substr($user->name, 0, 2)) : 'ST' }}
@@ -194,7 +194,7 @@
                             <div class="flex items-center gap-6">
                                 <div class="relative group">
                                     @if ($user->avatar)
-                                        <img src="{{ Storage::url('storage/' . $user->avatar) }}" x-show="!avatarPreview"
+                                        <img src="{{ Storage::url($user->avatar) }}" x-show="!avatarPreview"
                                             class="w-20 h-20 rounded-2xl object-cover border-2 border-zinc-100 shadow-md">
                                     @else
                                         <div x-show="!avatarPreview"

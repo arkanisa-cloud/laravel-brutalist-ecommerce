@@ -222,7 +222,7 @@
                                 @endif
 
                                 @if ($related->back_image_url)
-                                    <img src="{{ Storage::url($related->back_image_url) }}"
+                                    <img src="{{ Storage::url($related->back_image) }}"
                                         class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-1000 group-hover:scale-110 group-hover:opacity-100">
                                 @endif
 

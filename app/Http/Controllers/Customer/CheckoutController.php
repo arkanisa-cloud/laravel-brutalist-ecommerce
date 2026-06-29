@@ -226,7 +226,7 @@ class CheckoutController extends Controller
         ]);
 
         // Upload bukti pembayaran
-        $imagePath = $request->file('proof')->store('payments', 'public');
+        $imagePath = $request->file('proof')->store('payments');
 
         // Update payment
         $order->payment->update([

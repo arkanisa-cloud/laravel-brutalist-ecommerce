@@ -43,7 +43,7 @@
                         <div class="bg-zinc-50 rounded-2xl p-8 flex items-center justify-center min-h-[160px] border border-zinc-100"
                             id="logo-preview-container">
                             @if ($siteLogo)
-                                <img src="{{ asset('storage/' . $siteLogo) }}" alt="Current Logo"
+                                <img src="{{ Storage::url($siteLogo) }}" alt="Current Logo"
                                     class="max-h-20 max-w-full object-contain" id="logo-preview-img">
                             @else
                                 <div class="text-center" id="logo-preview-placeholder">
@@ -119,7 +119,7 @@
                         <div class="relative rounded-2xl overflow-hidden shadow-lg border border-zinc-100">
                             <div class="aspect-[21/9] bg-zinc-100">
                                 @if ($heroImage)
-                                    <img src="{{ asset('storage/' . $heroImage) }}" alt="Current Hero"
+                                    <img src="{{ Storage::url($heroImage) }}" alt="Current Hero"
                                         class="w-full h-full object-cover" id="hero-preview-img">
                                 @else
                                     <img src="{{ asset('images/hero.png') }}" alt="Default Hero"

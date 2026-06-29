@@ -93,7 +93,7 @@
                                 <div id="front-image-preview"
                                     class="w-full aspect-square bg-zinc-50 rounded-xl overflow-hidden {{ !$product->image ? 'border-2 border-dashed border-zinc-200 flex items-center justify-center' : '' }}">
                                     @if ($product->image)
-                                        <img src="{{ asset('storage/' . $product->image) }}"
+                                        <img src="{{ Storage::url($product->image) }}"
                                             class="w-full h-full object-cover">
                                     @else
                                         <span
@@ -117,7 +117,7 @@
                                 <div id="back-image-preview"
                                     class="w-full aspect-square bg-zinc-50 rounded-xl overflow-hidden {{ !$product->back_image ? 'border-2 border-dashed border-zinc-200 flex items-center justify-center' : '' }}">
                                     @if ($product->back_image)
-                                        <img src="{{ asset('storage/' . $product->back_image) }}"
+                                        <img src="{{ Storage::url($product->back_image) }}"
                                             class="w-full h-full object-cover">
                                     @else
                                         <span
