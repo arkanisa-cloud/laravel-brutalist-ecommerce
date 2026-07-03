@@ -7,10 +7,10 @@
 @endsection
 
 @section('content')
-    <div class="max-w-7xl mx-auto px-6 py-12" x-data="checkoutForm()">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12" x-data="checkoutForm()">
         {{-- Header Page --}}
-        <div class="mb-12 border-b border-zinc-100 pb-8">
-            <h1 class="text-4xl font-black italic tracking-tighter uppercase">Vault / <span
+        <div class="mb-6 sm:mb-12 border-b border-zinc-100 pb-4 sm:pb-8">
+            <h1 class="text-3xl sm:text-4xl font-black italic tracking-tighter uppercase">Vault / <span
                     class="text-zinc-400">Checkout</span></h1>
             <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em] mt-2">Selesaikan pembelian kamu dengan
                 aman.
@@ -19,7 +19,7 @@
 
         {{-- Checkout Progress --}}
         <div class="mb-12">
-            <div class="bg-white border border-zinc-100 rounded-3xl p-6">
+            <div class="bg-white border border-zinc-100 rounded-[1.5rem] sm:rounded-3xl p-4 sm:p-6">
                 <div class="flex items-center justify-between max-w-md mx-auto">
                     <div class="flex flex-col items-center">
                         <div
@@ -65,10 +65,10 @@
                     .service : ''">
             <input type="hidden" name="shipping_cost" :value="shippingCost">
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12">
                 {{-- Shipping Address --}}
                 <div class="lg:col-span-7">
-                    <div class="bg-white border border-zinc-100 rounded-3xl p-8">
+                    <div class="bg-white border border-zinc-100 rounded-[1.5rem] sm:rounded-3xl p-4 sm:p-8">
                         <h3 class="text-lg font-black uppercase tracking-tight mb-6 flex items-center gap-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -107,7 +107,7 @@
                                             {{ old('shipping_address_id', $addresses->first()->id) == $address->id ? 'checked' : '' }}
                                             @change="selectedAddress = $event.target.value; calculateShipping(); clearValidation()"
                                             required>
-                                        <div class="border-2 rounded-2xl p-4 transition-all duration-300 hover:border-zinc-950 cursor-pointer"
+                                        <div class="border-2 rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:border-zinc-950 cursor-pointer"
                                             :class="selectedAddress === '{{ $address->id }}' ? 'border-zinc-950 bg-zinc-50' :
                                                 'border-zinc-200'">
                                             <div class="flex items-start gap-3">
@@ -194,7 +194,7 @@
                 {{-- Order Summary & Payment --}}
                 <div class="lg:col-span-5 space-y-6">
                     {{-- Order Summary --}}
-                    <div class="bg-white border border-zinc-100 rounded-3xl p-8">
+                    <div class="bg-white border border-zinc-100 rounded-[1.5rem] sm:rounded-3xl p-4 sm:p-8">
                         <h3 class="text-lg font-black uppercase tracking-tight mb-6 flex items-center gap-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -262,7 +262,7 @@
                                     <div @click="selectService(idx); clearValidation()"
                                         :class="selectedServiceIdx === idx ? 'border-zinc-950 bg-zinc-50' :
                                             'border-zinc-100 hover:border-zinc-300'"
-                                        class="border rounded-2xl p-4 flex items-center justify-between cursor-pointer transition-all">
+                                        class="border rounded-xl sm:rounded-2xl p-3 sm:p-4 flex items-center justify-between cursor-pointer transition-all gap-2">
                                         <div class="flex items-center gap-4">
                                             <div class="w-4 h-4 rounded-full border flex items-center justify-center"
                                                 :class="selectedServiceIdx === idx ? 'border-zinc-950' : 'border-zinc-300'">
@@ -401,7 +401,7 @@
                     </div>
 
                     {{-- Info Card --}}
-                    <div class="bg-zinc-50 border border-zinc-100 rounded-3xl p-6">
+                    <div class="bg-zinc-50 border border-zinc-100 rounded-[1.5rem] sm:rounded-3xl p-4 sm:p-6">
                         <h4 class="text-sm font-black uppercase tracking-tight text-zinc-950 mb-4 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

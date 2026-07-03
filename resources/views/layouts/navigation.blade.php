@@ -119,7 +119,7 @@
                     :class="(!isHome || isScrolled || mobileMenuOpen) ?
                     'border-zinc-950 hover:bg-zinc-950 hover:text-white text-zinc-950' :
                     'border-white hover:bg-white hover:text-zinc-950 text-white'"
-                    class="px-5 py-2 border-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all duration-300">
+                    class="px-3.5 py-1.5 sm:px-5 sm:py-2 border-2 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-widest transition-all duration-300">
                     Masuk
                 </a>
             @endauth
@@ -140,6 +140,15 @@
                     class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-900">Keunggulan</a>
                 <a href="/#contact" @click="mobileMenuOpen = false" data-section="contact"
                     class="mobile-nav-link text-sm font-black uppercase tracking-widest text-zinc-900">Kontak</a>
+                
+                @guest
+                    <div class="pt-4 border-t border-zinc-100">
+                        <a href="{{ route('login') }}"
+                            class="block w-full text-center py-3 bg-zinc-950 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-zinc-800 transition-colors">
+                            Masuk ke Akun
+                        </a>
+                    </div>
+                @endguest
             </nav>
         </div>
     </div>

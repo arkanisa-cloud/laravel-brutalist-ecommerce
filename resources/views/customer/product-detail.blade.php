@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {{-- Breadcrumb: Minimalist Style --}}
-        <nav class="mb-12">
+        <nav class="mb-6 sm:mb-12">
             <ol class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
                 <li><a href="{{ route('home') }}" class="hover:text-zinc-950 transition-colors">Beranda</a></li>
                 <li>/</li>
@@ -19,7 +19,7 @@
             {{-- Left: Product Image (Column 1-6) --}}
             <div class="lg:col-span-6 space-y-6" x-data="{ activeIndex: 0 }">
                 <div
-                    class="relative aspect-square sm:aspect-[4/5] lg:max-h-[600px] bg-zinc-50 rounded-[2.5rem] overflow-hidden border border-zinc-100 group shadow-sm mx-auto">
+                    class="relative aspect-square sm:aspect-[4/5] lg:max-h-[600px] bg-zinc-50 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-zinc-100 group shadow-sm mx-auto">
 
                     <!-- Slides Wrapper -->
                     <div class="relative w-full h-full">
@@ -76,16 +76,16 @@
                     @if ($product->back_image_url)
                         <!-- Prev Button -->
                         <button type="button" @click="activeIndex = activeIndex === 0 ? 1 : 0"
-                            class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/85 hover:bg-white backdrop-blur-md text-zinc-950 flex items-center justify-center rounded-full shadow-lg border border-zinc-200/50 transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-115 active:scale-95 z-10">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/85 hover:bg-white backdrop-blur-md text-zinc-950 flex items-center justify-center rounded-full shadow-lg border border-zinc-200/50 transition-all duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-95 z-10">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                     d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <!-- Next Button -->
                         <button type="button" @click="activeIndex = activeIndex === 1 ? 0 : 1"
-                            class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/85 hover:bg-white backdrop-blur-md text-zinc-950 flex items-center justify-center rounded-full shadow-lg border border-zinc-200/50 transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-115 active:scale-95 z-10">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/85 hover:bg-white backdrop-blur-md text-zinc-950 flex items-center justify-center rounded-full shadow-lg border border-zinc-200/50 transition-all duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-95 z-10">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
@@ -119,7 +119,7 @@
                             <span class="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400 block mb-2">Original
                                 Merchandise</span>
                             <h1
-                                class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter uppercase italic leading-[0.9] text-zinc-950">
+                                class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tighter uppercase italic leading-[0.9] text-zinc-950">
                                 {{ $product->name }}
                             </h1>
                         </div>
@@ -211,7 +211,7 @@
             <div class="mt-32">
                 <h4 class="text-xs font-black uppercase tracking-[0.4em] mb-12 text-center italic">Mungkin Kamu Juga Suka
                 </h4>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
                     @foreach ($relatedProducts as $related)
                         <a href="{{ route('customer.shop.show', $related) }}" class="group block">
                             <div

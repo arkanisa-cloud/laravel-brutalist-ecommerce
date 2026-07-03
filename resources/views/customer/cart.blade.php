@@ -7,10 +7,10 @@
 @endsection
 
 @section('content')
-    <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {{-- Header Page --}}
-        <div class="mb-12 border-b border-zinc-100 pb-8">
-            <h1 class="text-4xl font-black italic tracking-tighter uppercase">Vault / <span
+        <div class="mb-6 sm:mb-12 border-b border-zinc-100 pb-4 sm:pb-8">
+            <h1 class="text-3xl sm:text-4xl font-black italic tracking-tighter uppercase">Vault / <span
                     class="text-zinc-400">Keranjang</span>
             </h1>
             <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em] mt-2">Tinjau dan kelola barang belanjaan
@@ -40,7 +40,7 @@
             </div>
         @else
             {{-- Cart Items --}}
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12" x-data="{
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12" x-data="{
                 selectedIds: @js($cart->cartItems->where('is_selected', true)->pluck('id')->values()),
                 allIds: @js($cart->cartItems->pluck('id')->values()),
                 get allSelected() { return this.selectedIds.length === this.allIds.length && this.allIds.length > 0 },
@@ -60,8 +60,8 @@
             }">
                 {{-- Cart Items List --}}
                 <div class="lg:col-span-8">
-                    <div class="bg-white border border-zinc-100 rounded-[2.5rem] p-8 shadow-sm">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
+                    <div class="bg-white border border-zinc-100 rounded-[1.5rem] sm:rounded-[2.5rem] p-4 sm:p-8 shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-10 gap-4">
                             <div class="flex items-center gap-4">
                                 <label class="flex items-center gap-3 cursor-pointer group">
                                     <div class="relative flex items-center">
@@ -139,10 +139,10 @@
                                     </form>
 
                                     <div
-                                        class="flex-1 flex gap-6 p-6 bg-zinc-50 rounded-[2rem] border border-transparent transition-all duration-300 {{ $item->is_selected ? 'bg-white border-zinc-100 shadow-sm' : 'opacity-60 grayscale-[0.5]' }}">
+                                        class="flex-1 flex gap-4 sm:gap-6 p-4 sm:p-6 bg-zinc-50 rounded-[1.5rem] sm:rounded-[2rem] border border-transparent transition-all duration-300 {{ $item->is_selected ? 'bg-white border-zinc-100 shadow-sm' : 'opacity-60 grayscale-[0.5]' }}">
                                         {{-- Product Image --}}
                                         <div
-                                            class="w-24 h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200/50">
+                                            class="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200/50">
                                             @if ($item->product->image)
                                                 <img src="{{ Storage::url($item->product->image) }}"
                                                     alt="{{ $item->product->name }}"
@@ -232,7 +232,7 @@
                                                         {{ $item->product->stock }}</span>
                                                 </div>
 
-                                                <div class="text-right">
+                                                <div class="text-left sm:text-right">
                                                     <p class="text-sm font-black italic text-zinc-950">IDR
                                                         {{ number_format($item->product->price, 0, ',', '.') }}</p>
                                                     <p
@@ -279,7 +279,7 @@
 
                 {{-- Order Summary --}}
                 <div class="lg:col-span-4 space-y-6">
-                    <div class="bg-zinc-950 rounded-[2.5rem] p-8 text-white shadow-2xl sticky top-24">
+                    <div class="bg-zinc-950 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-8 text-white shadow-2xl sticky top-24">
                         <h3 class="text-xl font-black uppercase tracking-tight italic mb-8 border-b border-white/10 pb-4">
                             Ringkasan Pesanan</h3>
 

@@ -103,6 +103,11 @@
                             </form>
                         </div>
                     </div>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="px-3 py-1.5 sm:px-5 sm:py-2 border-2 border-zinc-950 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-widest hover:bg-zinc-950 hover:text-white transition-all duration-300">
+                        Masuk
+                    </a>
                 @endauth
 
             </div>
