@@ -53,7 +53,7 @@ class GoogleController extends Controller
             }
 
             // Redirect ke halaman dashboard atau home toko online STS
-            return redirect()->intended('/dashboard');
+            return redirect()->route('home')->with('success', 'Berhasil login dengan Google!');
 
         } catch (\Exception $e) {
             return redirect('/login')->with('error', 'Terjadi kesalahan saat login menggunakan Google.');
